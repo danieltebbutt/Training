@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<TITLE>Fitness</TITLE>
+</HEAD>
+<BODY>
+<DIV ALIGN="Right">
+<A HREF="index.html">Back to main menu</A>
+</DIV>
+<DIV ALIGN="Center">
+<CENTER>
+<H1>
+Fitness
+</H1>
+</CENTER>
+</DIV>
+<BODY>
+###FITNESS###
+<p>(Red = race, blue = training run, green = treadmill run).</p>
+<H4>Fitness measure</H4>
+<p>"Fitness" is an estimate of the speed (in kph) at which I could complete a half marathon on a flat course.  It's calculated and plotted for every
+training run I do, provided I have heart-rate and elevation data (i.e. I had my Garmin watch and chest-strap on, or I was on a treadmill).  It's based
+on the following measurements and assumptions:
+<UL>
+<LI><B>Speed</B>.  This is the starting number.</LI>
+<LI><B>Heart rate</B>.  I assume that (for a given fitness level) speed increases linearly with heart rate from a base of 80bpm, and that a HM would be
+    run at 175bpm.</LI>
+<LI><B>Elevation change</B>.  I assume that for every 1% climb my speed falls by 0.75kph.</LI>
+</UL>
+These assumptions are based on data from dozens of training runs on various courses (including a lot on treadmills) and at various paces.
+So for instance, a training run of 10km in 1 hour with a heart rate of 160, climbing (and then descending) a 200m hill, means:
+<UL>
+<LI>A speed of 10kph.</LI>
+<LI>A heart rate of 160bpm, which means scaling up the speed by (175-80)/(160-80)= 19/16.</LI>
+<LI>Total climb of 200m over 10km is 2%, which means adding onto the speed 0.75*2.</LI>
+</UL>
+Overall that's 10*19/16+0.75*2=13.375kph on a flat HM course, or just under 1:35.
+<h4>What's the point?</h4>
+<p>Theoretically this measure should be independent of what course I choose to run and how hard I push myself.  It's therefore comparable across all my
+training runs.  It doesn't affect my training - I don't need to run a particular way to get a "high" score and beat my previous fitness measure.  I can
+therefore train whichever way I deem most effective.
+<p>The data is interesting in itself (e.g. to track my recovery from pneumonia), but will also be useful in setting expectations for races.  The excitement
+of a race can screw with your heart rate, meaning a predicted race pace is more useful than running to a certain heart rate.
+<h4>What are the flaws?</h4>
+<ul>
+<li>After several months of decent training I'm limited much more by my body's ability to efficient use oxygen than my cardiovascular system's ability to
+deliver it.  The fitness measure levels off but I continue to improve as I keep running.
+<li>I find I run less efficiently in races than in training.  I'm working on fixing that, but in the meantime this fitness measure predicts more than I am
+capable of delivering in a race.
+<li>The measure takes no account of terrain: running on grass, mud, ice or snow is harder than asphalt or hard-packed dirt.
+</ul>
+<h4>Does this cover all the running you've ever done?</h4>
+<P>No.  I ran a 1:45 half marathon (my first) in mid-September 2012 after about 6 months of training from a base of nothing.  After the HM I took a week off
+    and then resumed light training.  By late October I was back into serious training, and had bought a new chest-strap so I could start gathering
+    heart-rate data on my runs.  So this chart starts after ~7 months of training.</P>
+<h4>Why the big gaps and disastrous loss of fitness?</h4>
+<P>The 4-week gap in early 2013 was due to pneumonia.  The longer gap over winter 2013-2014 was due to snow and lack of a gym membership or home
+treadmill.</P>
+
+</BODY>
+</HTML>
