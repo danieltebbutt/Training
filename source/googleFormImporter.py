@@ -20,7 +20,10 @@ class GoogleFormImporter(Importer):
         reader = csv.reader(fileStream)
         for row in reader:
             try:
-                date = datetime.strptime(row[1], "%d/%m/%Y")
+                if (row[1]):
+                    date = datetime.strptime(row[1], "%d/%m/%Y")
+                else:
+                    date = datetime.strptime(row[0], "%d/%m/%Y %H:%M:%S")
                 distance = float(row[2])
                 abstime = datetime.strptime(row[3], "%H:%M:%S")
                 deltatime = timedelta(seconds = abstime.second, minutes = abstime.minute, hours = abstime.hour)
@@ -39,6 +42,6 @@ class GoogleFormImporter(Importer):
 
                 data.addActivity(activity)
             except Exception as exception:
-                #print "Ignore %s because %s"%(row, str(exception))
+                print "Ignore %s because %s"%(row, str(exception))
                 pass
         return
