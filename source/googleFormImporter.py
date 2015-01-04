@@ -42,6 +42,6 @@ class GoogleFormImporter(Importer):
 
                 data.addActivity(activity)
             except Exception as exception:
-                print "Ignore %s because %s"%(row, str(exception))
+                #print "Ignore %s because %s"%(row, str(exception))
                 pass
         return
