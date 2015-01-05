@@ -49,3 +49,4 @@ web/fitness.html
 web/runlog.html
 web/treadmill.html
 data/SubmittedRuns.csv
+*.ini

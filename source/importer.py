@@ -4,7 +4,7 @@
 import os
 from database import Database
 
-class Importer:
+class Importer(object):
 
     def __init__(self, filename):
         self.filename = filename

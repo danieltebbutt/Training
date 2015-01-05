@@ -4,6 +4,7 @@
 import os
 import csv
 import urllib2
+import ConfigParser
 
 from datetime import date
 from datetime import time
@@ -16,8 +17,14 @@ from activity import Activity
 from googleFormImporter import GoogleFormImporter
 
 class GoogleWebImporter(Importer):
-    address = "https://docs.google.com/spreadsheets/d/1_JgI_c7KhC4nXs_LStbySvarm7Cz-wDTqKgtsli-4KA/export?format=csv"
 
+    def __init__(self, filename):
+        super(GoogleWebImporter, self).__init__(filename)
+        
+        config = ConfigParser.ConfigParser()
+        config.readfp(open('training.ini'))
+        self.address = config.get("GoogleWebImporter", "address")
+    
     # File doesn't need to exist for this class
     def fileExists(self):
         return True
