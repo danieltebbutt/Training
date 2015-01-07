@@ -128,7 +128,7 @@ Usage: export HTMLCharts <filename>\n\
         return(answer == "yes")
 
     def importData(self, data, arguments):
-        usage = "Usage: import Google/Garmin/GoogleForm/Races <filename>"
+        usage = "Usage: import Google/Garmin/GoogleForm/GoogleWeb/Races <filename>"
         if " " in arguments:
             (type, filename) = arguments.split(' ', 1)
         else:
