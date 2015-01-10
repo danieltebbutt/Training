@@ -17,31 +17,37 @@ class GoogleFormImporter(Importer):
 
     def loadData(self, data):
         fileStream = open(self.filename, 'rb')
-        reader = csv.reader(fileStream)
+        reader = csv.DictReader(fileStream)
         for row in reader:
             try:
-                if (row[1]):
-                    date = datetime.strptime(row[1], "%d/%m/%Y")
+                if "Date" in row and row["Date"]:
+                    date = datetime.strptime(row["Date"], "%d/%m/%Y")
                 else:
-                    date = datetime.strptime(row[0], "%d/%m/%Y %H:%M:%S")
-                distance = float(row[2])
-                abstime = datetime.strptime(row[3], "%H:%M:%S")
+                    date = datetime.strptime(row["Timestamp"], "%d/%m/%Y %H:%M:%S")
+                distance = float(row["Distance"])
+                abstime = datetime.strptime(row["Time"], "%H:%M:%S")
                 deltatime = timedelta(seconds = abstime.second, minutes = abstime.minute, hours = abstime.hour)
-                if row[4]:
-                    heartRate = float(row[4])
-                else:
-                    heartRate = 0
-                if row[5]:
-                    elevationGain = float(row[5])
-                else:
-                    elevationGain = 0
-                route = row[6]
-                notes = row[7]
+                
+                heartRate = 0
+                elevationGain = 0
+                route = ""
+                notes = ""
+                
+                if "Heart rate" in row and row["Heart rate"]:
+                    heartRate = float(row["Heart rate"])
+                if "Climb" in row and row["Climb"]:
+                    elevationGain = float(row["Climb"])
+                if "Location" in row:
+                    route = row["Location"]                
+                if "Notes" in row:
+                    notes = row["Notes"]                    
+                if "Comment" in row:
+                    notes = row["Comment"]
 
                 activity = Activity(date, distance, deltatime, notes, heartRate, elevationGain, route)
 
                 data.addActivity(activity)
             except Exception as exception:
-                #print "Ignore %s because %s"%(row, str(exception))
+                print "Ignore %s because %s"%(row, str(exception))
                 pass
         return

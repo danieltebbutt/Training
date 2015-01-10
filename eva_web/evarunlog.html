@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<TITLE>Eva's running log</TITLE>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(drawChart);
+function drawChart() {
+  var data1 = google.visualization.arrayToDataTable([
+  ['Week', 'Kilometres', {'type' : 'string', 'role' : 'style' }],
+['Dec-2014',0.6, null],
+['Jan-2015',0.6, null],
+['Jan-2015',0.4, null],
+]);
+
+  var options1 = {
+    title: 'Kilometres per week',
+    legend: {position: 'none'},
+    vAxis: {viewWindowMode:'explicit', viewWindow:{min:0}}
+  };
+
+  var chart1 = new google.visualization.ColumnChart(document.getElementById('chart_div1'));
+
+  chart1.draw(data1, options1);
+}
+    </script>
+</HEAD>
+<BODY>
+<DIV ALIGN="Right">
+<A HREF="index.html">Back to main menu</A>
+</DIV>
+<DIV ALIGN="Center">
+<CENTER>
+<H1>
+Eva's running log
+</H1>
+</CENTER>
+</DIV>
+<BODY>
+<p>
+<div id="chart_div1" style="width: 900px; height: 500px;"></div>
+<p>Red columns are weeks with a race in.</p>
+</BODY>
+</HTML>

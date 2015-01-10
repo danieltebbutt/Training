@@ -1,6 +1,7 @@
 # WebExporter for Dan's training application.
 # This contains specific functions for exporting data to the web.
 
+import pdb
 import os
 from database import Database
 from exporter import Exporter
@@ -142,6 +143,7 @@ function drawChart() {\n")
   var options%d = {\n\
     title: 'Kilometres per %s',\n\
     legend: {position: 'none'},\n\
+    vAxis: {viewWindowMode:'explicit', viewWindow:{min:0}}\n\
   };\n\
 \n\
   var chart%d = new google.visualization.ColumnChart(document.getElementById('chart_div%d'));\n\
@@ -163,7 +165,7 @@ function drawChart() {\n")
 
         runs = runs.range(purchaseDate)
         cost = 1600
-
+        
         self.outputfile.write("<ul>\n\
 <li>Owned for:      %d days\n\
 <li>Times used:     %d</li>\n\
