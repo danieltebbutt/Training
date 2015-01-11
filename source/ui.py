@@ -65,7 +65,7 @@ class UI:
     def makeRange(self, data, arguments):
         (startDate, endDate) = arguments.split(' ', 1)
 
-        self.range = data.range(datetime.strptime(startDate, "%Y-%m-%d"), datetime.strptime(endDate, "%Y-%m-%d"))
+        self.range = data.range(datetime.strptime(startDate, "%Y-%m-%d").date(), datetime.strptime(endDate, "%Y-%m-%d").date())
 
     def rangeKilometres(self, data, arguments):
         print "%.2fkm"%self.range.kilometres()
@@ -229,5 +229,3 @@ Usage: export HTMLCharts <filename>\n\
             self.instructions[command.lower()](data, arguments)
         else:
             self.error("Command %s not recognized"%command)
-
-
