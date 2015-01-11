@@ -14,7 +14,8 @@ from datetime import timedelta
 from importer import Importer
 from database import Database
 from activity import Activity
-from googleFormImporter import GoogleFormImporter
+
+tempFilename = "./temp.csv"
 
 class GoogleWebImporter(Importer):
 
@@ -22,6 +23,7 @@ class GoogleWebImporter(Importer):
         config = ConfigParser.ConfigParser()
         config.readfp(open('training.ini'))
         self.address = config.get("GoogleWebImporter", address)
+        super(GoogleWebImporter, self).__init__(tempFilename)
     
     # File doesn't need to exist for this class
     def fileExists(self):
@@ -31,15 +33,12 @@ class GoogleWebImporter(Importer):
         response = urllib2.urlopen(self.address)
         html = response.read()
         
-        filename = "./temp.csv"
-        
-        fileStream = open(filename, 'w')
+        fileStream = open(tempFilename, 'w')
         fileStream.write(html)
         fileStream.close()
         
-        formImporter = GoogleFormImporter(filename)
-        formImporter.loadData(data)
+        super(GoogleWebImporter, self).loadData(data)
         
-        os.remove(filename)
+        os.remove(tempFilename)
         
         

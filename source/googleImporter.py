@@ -13,33 +13,24 @@ from importer import Importer
 from database import Database
 from activity import Activity
 
+tempFilename = ".\\temp.csv"
+
 class GoogleImporter(Importer):
 
     def loadData(self, data):
-        fileStream = open(self.filename, 'rb')
-        reader = csv.reader(fileStream)
-        for row in reader:
-            try:
-                date = datetime.strptime(row[1], "%d-%b-%Y")
-                distance = float(row[3])
-                abstime = datetime.strptime(row[4], "%H:%M:%S")
-                deltatime = timedelta(seconds = abstime.second, minutes = abstime.minute, hours = abstime.hour)
-                if row[7] != "":
-                    heartRate = float(row[7])
-                else:
-                    heartRate = 0
-                if row[8] != "":
-                    elevationGain = float(row[8])
-                else:
-                    elevationGain = 0
-                route = row[16]
-                notes = row[17]
-
-                if (distance > 0):
-                    activity = Activity(date, distance, deltatime, notes, heartRate, elevationGain, route)
-
-                data.addActivity(activity)
-            except Exception as exception:
-                #print "Ignore %s because %s"%(row, str(exception))
-                pass
+        # Rewrite with a fixed csv header into a temp file and then call the parent class to parse
+        with open(self.filename, 'rb') as inStream, open(tempFilename, 'wb') as outStream:
+            # Discard first line
+            line1 = inStream.readline()
+            
+            # Write to new file
+            for line in inStream:
+                outStream.write(line)
+                
+            outStream.close()
+            inStream.close()
+        
+        self.filename = tempFilename
+        super(GoogleImporter, self).loadData(data)
+        os.remove(tempFilename)
         return

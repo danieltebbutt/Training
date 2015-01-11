@@ -161,7 +161,7 @@ function drawChart() {\n")
 
         runs = data.getTreadmillPeriod()
 
-        purchaseDate = datetime(year=2014, month=11, day = 21)
+        purchaseDate = datetime(year=2014, month=11, day = 21).date()
 
         runs = runs.range(purchaseDate)
         cost = 1600
@@ -172,7 +172,7 @@ function drawChart() {\n")
 <li>Distance run:   %.0fkm</li>\n\
 <li>Cost per km:    &pound;%.2f</li>\n\
 <li>Cost per run:   &pound;%.2f</li>\n\
-</ul>"%((datetime.today() - purchaseDate).days, \
+</ul>"%((datetime.today().date() - purchaseDate).days, \
           len(runs.training),                \
           runs.kilometres(),                 \
           cost / runs.kilometres(),          \
@@ -182,8 +182,8 @@ function drawChart() {\n")
 
         runs = data.getTreadmillPeriod()
 
-        endDate = datetime(year=2013, month=12, day = 1)
-        startDate = datetime(year=2012, month=9, day = 1)
+        endDate = datetime(year=2013, month=12, day = 1).date()
+        startDate = datetime(year=2012, month=9, day = 1).date()
 
         runs = runs.range(startDate, endDate)
         cost = 200

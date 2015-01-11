@@ -6,8 +6,8 @@ import sys
 from googleImporter import GoogleImporter
 from garminImporter import GarminImporter
 from racesImporter import RacesImporter
-from googleFormImporter import GoogleFormImporter
 from googleWebImporter import GoogleWebImporter
+from importer import Importer
 from webExporter import WebExporter
 from webPublish import WebPublish
 from datetime import datetime
@@ -140,7 +140,7 @@ Usage: export HTMLCharts <filename>\n\
         elif type == "Garmin":
             importer = GarminImporter(filename)
         elif type == "GoogleForm":
-            importer = GoogleFormImporter(filename)
+            importer = Importer(filename)
         elif type == "GoogleWeb":
             importer = GoogleWebImporter(filename)
         elif type == "Races":

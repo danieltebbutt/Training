@@ -24,7 +24,7 @@ class Period:
 
     def registerRace(self, date, name):
         if not date in self.dateList:
-            print "Unable to register race: %s %s"%(date, name)
+            print "Unable to register race: %s %s %s"%(date, name, self.dateList)
             return
 
         self.dateList[date].setRace(name)
