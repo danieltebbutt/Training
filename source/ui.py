@@ -6,8 +6,8 @@ import sys
 from googleImporter import GoogleImporter
 from garminImporter import GarminImporter
 from racesImporter import RacesImporter
-from googleFormImporter import GoogleFormImporter
 from googleWebImporter import GoogleWebImporter
+from importer import Importer
 from webExporter import WebExporter
 from webPublish import WebPublish
 from datetime import datetime
@@ -65,7 +65,7 @@ class UI:
     def makeRange(self, data, arguments):
         (startDate, endDate) = arguments.split(' ', 1)
 
-        self.range = data.range(datetime.strptime(startDate, "%Y-%m-%d"), datetime.strptime(endDate, "%Y-%m-%d"))
+        self.range = data.range(datetime.strptime(startDate, "%Y-%m-%d").date(), datetime.strptime(endDate, "%Y-%m-%d").date())
 
     def rangeKilometres(self, data, arguments):
         print "%.2fkm"%self.range.kilometres()
@@ -140,7 +140,7 @@ Usage: export HTMLCharts <filename>\n\
         elif type == "Garmin":
             importer = GarminImporter(filename)
         elif type == "GoogleForm":
-            importer = GoogleFormImporter(filename)
+            importer = Importer(filename)
         elif type == "GoogleWeb":
             importer = GoogleWebImporter(filename)
         elif type == "Races":
@@ -229,5 +229,3 @@ Usage: export HTMLCharts <filename>\n\
             self.instructions[command.lower()](data, arguments)
         else:
             self.error("Command %s not recognized"%command)
-
-

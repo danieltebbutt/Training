@@ -21,7 +21,7 @@ class RacesImporter(Importer):
         reader = csv.reader(fileStream)
         for row in reader:
             try:
-                date = datetime.strptime(row[0], "%d-%b-%Y")
+                date = datetime.strptime(row[0], "%d-%b-%Y").date()
                 name = row[1]
 
                 data.registerRace(date, name)

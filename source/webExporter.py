@@ -1,6 +1,7 @@
 # WebExporter for Dan's training application.
 # This contains specific functions for exporting data to the web.
 
+import pdb
 import os
 from database import Database
 from exporter import Exporter
@@ -142,6 +143,7 @@ function drawChart() {\n")
   var options%d = {\n\
     title: 'Kilometres per %s',\n\
     legend: {position: 'none'},\n\
+    vAxis: {viewWindowMode:'explicit', viewWindow:{min:0}}\n\
   };\n\
 \n\
   var chart%d = new google.visualization.ColumnChart(document.getElementById('chart_div%d'));\n\
@@ -159,18 +161,18 @@ function drawChart() {\n")
 
         runs = data.getTreadmillPeriod()
 
-        purchaseDate = datetime(year=2014, month=11, day = 21)
+        purchaseDate = datetime(year=2014, month=11, day = 21).date()
 
         runs = runs.range(purchaseDate)
         cost = 1600
-
+        
         self.outputfile.write("<ul>\n\
 <li>Owned for:      %d days\n\
 <li>Times used:     %d</li>\n\
 <li>Distance run:   %.0fkm</li>\n\
 <li>Cost per km:    &pound;%.2f</li>\n\
 <li>Cost per run:   &pound;%.2f</li>\n\
-</ul>"%((datetime.today() - purchaseDate).days, \
+</ul>"%((datetime.today().date() - purchaseDate).days, \
           len(runs.training),                \
           runs.kilometres(),                 \
           cost / runs.kilometres(),          \
@@ -180,8 +182,8 @@ function drawChart() {\n")
 
         runs = data.getTreadmillPeriod()
 
-        endDate = datetime(year=2013, month=12, day = 1)
-        startDate = datetime(year=2012, month=9, day = 1)
+        endDate = datetime(year=2013, month=12, day = 1).date()
+        startDate = datetime(year=2012, month=9, day = 1).date()
 
         runs = runs.range(startDate, endDate)
         cost = 200

@@ -13,32 +13,22 @@ from importer import Importer
 from database import Database
 from activity import Activity
 
+tempFilename = ".\\temp.csv"
+
 class GarminImporter(Importer):
 
-
     def loadData(self, data):
-        fileStream = open(self.filename, 'rb')
-        reader = csv.reader(fileStream)
-        for row in reader:
-            try:
-                (crap,day,month,year,crap2) = row[4].split(" ", 4)
-                datestring = "%s-%s-%s"%(day,month,year)
-                date = datetime.strptime(datestring, "%d-%b-%Y")
-                distance = float(row[6])
-                try:
-                    abstime = datetime.strptime(row[5], "%H:%M:%S")
-                except:
-                    abstime = datetime.strptime(row[5], "%M:%S")
-                    pass
-                deltatime = timedelta(seconds = abstime.second, minutes = abstime.minute, hours = abstime.hour)
-                heartRate = float(row[10])
-                elevationGain = float(row[7])
-
-                if (distance > 0):
-                    activity = Activity(date, distance, deltatime, "", heartRate, elevationGain)
-
-                data.addActivity(activity)
-            except Exception as exception:
-                #print "Ignore %s because %s"%(row, str(exception))
-                pass
+        with open(self.filename, 'rb') as inStream, open(tempFilename, 'wb') as outStream:
+            # Only write to new file if the line contains a comma
+            for line in inStream:
+                if "," in line:
+                    outStream.write(line)
+                
+            outStream.close()
+            inStream.close()
+        
+        self.filename = tempFilename
+        super(GarminImporter, self).loadData(data)
+        os.remove(tempFilename)
         return
+        
