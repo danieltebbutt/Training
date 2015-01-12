@@ -199,6 +199,52 @@ function drawChart() {\n")
           cost / runs.kilometres(),          \
           cost / len(runs.training)))
 
+    def timedeltaToHMS(self, timedelta):
+        hours = timedelta.total_seconds() / 3600
+        minutes = (timedelta.total_seconds() / 60) % 60
+        seconds = timedelta.total_seconds() % 60
+        return (hours, minutes, seconds)
+        
+    def timedeltaToMS(self, timedelta):
+        hours, minutes, seconds = self.timedeltaToHMS(timedelta)
+        return (minutes, seconds)
+          
+    def writeRecords(self, data):
+        
+        self.outputfile.write("<p>Since March 2012:</p>\n")
+        
+        # Totals
+        self.outputfile.write("<p>Total:</p>\n")
+        self.outputfile.write("<ul>\n")
+        self.outputfile.write("<li>Distance run:       %dkm</li>\n"%data.kilometres())
+        self.outputfile.write("<li>Number of runs:     %d</li>\n"%len(data.training))
+        self.outputfile.write("<li>Time spent running: %d hours</li>\n"%self.timedeltaToHMS(data.time())[0])
+        self.outputfile.write("</ul>\n")
+        
+        # Averages
+        self.outputfile.write("<p>Average:</p>\n")
+        self.outputfile.write("<ul>\n")
+        self.outputfile.write("<li>Run length: %.1fkm</li>\n"%(data.kilometres() / len(data.training)))
+        self.outputfile.write("<li>Run time:   %2d:%02d:%02d</li>\n"%self.timedeltaToHMS(data.time() / len(data.training)))
+        seconds_per_km = data.time().total_seconds() / data.kilometres()
+        self.outputfile.write("<li>Pace:       %d:%d per km</li>\n"%(seconds_per_km / 60, seconds_per_km % 60))
+        heartbeats, timeMeasured = data.heartbeats()
+        self.outputfile.write("<li>Heart rate: %dbpm</li>\n"%(heartbeats * 60 / timeMeasured.total_seconds()))
+        self.outputfile.write("</ul>\n")
+                  
+        # Best
+        self.outputfile.write("<p>Personal bests:</p>\n")
+        self.outputfile.write("<ul>\n")
+        self.outputfile.write("<li>Longest run:        %2d:%02d:%02d</li>\n"%self.timedeltaToHMS(data.longest()))
+        self.outputfile.write("<li>Furthest run:       %dkm</li>\n"%data.furthest())
+        self.outputfile.write("<li>Highest average HR: %d</li>\n"%data.highestHR())
+        self.outputfile.write("<li>5km:                %2d:%02d</li>\n"%self.timedeltaToMS(data.bestTime(5)))
+        self.outputfile.write("<li>10km:               %2d:%02d</li>\n"%self.timedeltaToMS(data.bestTime(10)))
+        self.outputfile.write("<li>21km:               %d:%2d:%02d</li>\n"%self.timedeltaToHMS(data.bestTime(21.1)))
+        self.outputfile.write("<li>42km:               %d:%2d:%02d</li>\n"%self.timedeltaToHMS(data.bestTime(42.2)))
+        self.outputfile.write("</ul>\n")
+        
+                  
     def actionTemplate(self, data, template):
 
         # tag: (function, isScript)
@@ -207,6 +253,7 @@ function drawChart() {\n")
                  "###FITNESS###"   : (self.writeFitness, True),
                  "###TREADMILL###" : (self.writeHomeTreadmill, False),
                  "###GYM###"       : (self.writeGymTreadmill, False),
+                 "###RECORDS###"   : (self.writeRecords, False),
                  }
 
         fileStream = open(join(self.templateDir,template), 'r')

@@ -103,6 +103,46 @@ class Period:
             distance += activity.distance
         return distance
 
+    def time(self):
+        totalTime = timedelta(hours = 0)
+        for activity in self.training:
+            totalTime += activity.time
+        return totalTime
+
+    def heartbeats(self):
+        heartbeats = 0
+        timeMeasured = timedelta(seconds = 0)
+        for activity in self.training:
+            if activity.heartrate > 0:
+                heartbeats += activity.heartrate * activity.time.total_seconds() / 60
+                timeMeasured += activity.time
+        return (heartbeats, timeMeasured)
+
+    def longest(self):
+        longest = timedelta(seconds = 0)
+        for activity in self.training:
+            longest = max(longest, activity.time)
+        return longest
+
+    def furthest(self):
+        furthest = 0
+        for activity in self.training:
+            furthest = max(furthest, activity.distance)
+        return furthest
+
+    def highestHR(self):
+        heartrate = 0
+        for activity in self.training:
+            heartrate = max(heartrate, activity.heartrate)
+        return heartrate
+        
+    def bestTime(self, distance):
+        bestTime = timedelta(seconds = 60 * 60 * 24)
+        for activity in self.training:
+            if activity.distance >= distance:
+                bestTime = min(bestTime, activity.time)        
+        return bestTime
+        
     def range(self, startDate, endDate = None):
         myRange = Period()
 
