@@ -55,7 +55,7 @@ class Period:
 
     def dump(self):
         for activity in self.sorted():
-            print activity.toString()
+            print activity.toLongString()
 
     def clash(self, comparison):
         for item in comparison.training:

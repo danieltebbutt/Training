@@ -84,11 +84,11 @@ function drawChart() {
 ['Aug-2013',0.0, null],
 ['Aug-2013',9.5, null],
 ['Sep-2013',28.9, null],
-['Sep-2013',0.0, null],
+['Sep-2013',9.5, null],
 ['Sep-2013',29.0, null],
 ['Sep-2013',21.1, '#ff0000'],
 ['Sep-2013',0.0, null],
-['Sep-2013',0.0, null],
+['Oct-2013',9.5, null],
 ['Oct-2013',10.0, null],
 ['Oct-2013',9.5, null],
 ['Oct-2013',0.0, null],
@@ -154,12 +154,14 @@ function drawChart() {
 ['Dec-2014',11.6, null],
 ['Dec-2014',6.1, null],
 ['Jan-2015',30.9, null],
-['Jan-2015',9.9, null],
+['Jan-2015',28.7, null],
+['Jan-2015',19.0, null],
 ]);
 
   var options1 = {
     title: 'Kilometres per week',
     legend: {position: 'none'},
+    vAxis: {viewWindowMode:'explicit', viewWindow:{min:0}}
   };
 
   var chart1 = new google.visualization.ColumnChart(document.getElementById('chart_div1'));

@@ -18,6 +18,9 @@ class Activity:
     def toString(self):
         return "%s %.2fkm %s %s %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time, self.raceName if self.isRace else "     ", self.notes)
 
+    def toLongString(self):
+        return "%s %2.1fkm %s %dbpm fit:%.1f %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time, self.heartrate, self.fitness(), self.notes)
+
     def isTreadmill(self):
         return (self.route == "Treadmill")
 

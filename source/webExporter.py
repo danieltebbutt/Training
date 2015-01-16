@@ -67,7 +67,9 @@ function drawChart() {\n")
   var options%d = {\n\
     title: 'Fitness',\n\
     legend: {position: 'none'},\n"%(self.chartIndex))
-        self.outputfile.write("trendlines: { 0: {} }")
+        self.outputfile.write("trendlines: { 0: {} },\n")
+        self.outputfile.write("explorer: { actions: ['dragToZoom', 'rightClickToReset'] }")
+        
         self.outputfile.write("\
   };\n\
 \n\
