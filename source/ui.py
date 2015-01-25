@@ -32,6 +32,7 @@ class UI:
             'export' : self.exportData,
             'publish' : self.publishHTML,
             'range' : self.makeRange,
+            'filter' : self.filter,
             'rangekilometres' : self.rangeKilometres,
             'run' : self.run,
             '' : self.noOp,
@@ -54,6 +55,11 @@ class UI:
     def noOp(self, data, arguments):
         return
 
+    def filter(self, data, arguments):
+        tag = arguments
+        
+        self.range = data.filter(tag)
+        
     def run(self, data, arguments):
         filename = arguments
 

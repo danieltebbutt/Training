@@ -42,12 +42,15 @@ class Period:
                 races.append(activity)
         return races
 
-    def getTreadmillPeriod(self):
-        treadmill = Period()
+    def filter(self, tag):
+        newPeriod = Period()
         for activity in self.sorted():
-            if activity.isTreadmill():
-                treadmill.addActivity(activity)
-        return treadmill
+            if tag in activity.tags:
+                newPeriod.addActivity(activity)
+        return newPeriod
+        
+    def getTreadmillPeriod(self):
+        return self.filter("TREADMILL")
 
     def removeActivity(self, activity):
         self.training.remove(activity)
@@ -152,5 +155,4 @@ class Period:
                 myRange.addActivity(activity)
 
         return myRange
-
 

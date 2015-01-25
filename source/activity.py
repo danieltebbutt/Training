@@ -14,6 +14,9 @@ class Activity:
         self.isRace = False
         self.raceName = ""
         self.route = route
+        self.tags = []
+        if "Treadmill" in self.route:
+            self.tags.append("TREADMILL")
 
     def toString(self):
         return "%s %.2fkm %s %s %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time, self.raceName if self.isRace else "     ", self.notes)
@@ -22,7 +25,7 @@ class Activity:
         return "%s %2.1fkm %s %dbpm fit:%.1f %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time, self.heartrate, self.fitness(), self.notes)
 
     def isTreadmill(self):
-        return (self.route == "Treadmill")
+        return ("TREADMILL" in self.tags)
 
     def summaryString(self):
         if self.isRace:
