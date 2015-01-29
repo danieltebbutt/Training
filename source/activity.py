@@ -11,24 +11,32 @@ class Activity:
         self.notes = notes
         self.heartrate = heartrate
         self.elevation = elevation
-        self.isRace = False
         self.raceName = ""
         self.route = route
         self.tags = []
         if "Treadmill" in self.route:
-            self.tags.append("TREADMILL")
+            self.setTag("TREADMILL")
 
+    def setTag(self, tag):
+        self.tags.append(tag)
+            
+    def tagSet(self, tag):
+        return (tag in self.tags)
+            
     def toString(self):
-        return "%s %.2fkm %s %s %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time, self.raceName if self.isRace else "     ", self.notes)
+        return "%s %.2fkm %s %s %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time, self.raceName if self.tagSet("RACE") else "     ", self.notes)
 
     def toLongString(self):
         return "%s %2.1fkm %s %dbpm fit:%.1f %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time, self.heartrate, self.fitness(), self.notes)
 
     def isTreadmill(self):
-        return ("TREADMILL" in self.tags)
+        return self.tagSet("TREADMILL")
 
+    def isRace(self):
+        return self.tagSet("RACE")
+        
     def summaryString(self):
-        if self.isRace:
+        if self.isRace():
             return "%s %s %s"%(self.date.strftime("%b-%Y"), self.raceName, self.time)
         else:
             return "%s %.2fkm %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time)
@@ -76,6 +84,6 @@ class Activity:
             return self.fitScore(self.distance, self.time.total_seconds(), self.heartrate, self.elevation)
 
     def setRace(self, name):
-        self.isRace = True
+        self.setTag("RACE")
         self.raceName = name
 

@@ -62,7 +62,6 @@ class UI:
         
     def run(self, data, arguments):
         filename = arguments
-
         fileStream = open(filename)
 
         for line in fileStream:

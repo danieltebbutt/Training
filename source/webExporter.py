@@ -60,7 +60,7 @@ function drawChart() {\n")
                                    activity.date.day,
                                    activity.fitness(),
                                    activity.summaryString(),
-                                   "'point {fill-color: #%s}'"%pointColors[(activity.isRace, activity.isTreadmill())]))
+                                   "'point {fill-color: #%s}'"%pointColors[(activity.isRace(), activity.isTreadmill())]))
 
         self.outputfile.write("]);\n\
 \n\

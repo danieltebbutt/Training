@@ -31,21 +31,17 @@ class Period:
 
     def containsRace(self):
         for activity in self.training:
-            if activity.isRace:
+            if activity.tagSet("RACE"):
                return True
         return False
 
     def getRaces(self):
-        races = []
-        for activity in self.sorted():
-            if activity.isRace:
-                races.append(activity)
-        return races
+        return self.filter("RACE").training
 
     def filter(self, tag):
         newPeriod = Period()
         for activity in self.sorted():
-            if tag in activity.tags:
+            if activity.tagSet(tag):
                 newPeriod.addActivity(activity)
         return newPeriod
         
