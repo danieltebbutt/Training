@@ -1,6 +1,6 @@
 # Activity for Dan's training application.
 # This contains all training information for a single activity.
-
+import math
 
 class Activity:
 
@@ -27,13 +27,19 @@ class Activity:
         return "%s %.2fkm %s %s %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time, self.raceName if self.tagSet("RACE") else "     ", self.notes)
 
     def toLongString(self):
-        return "%s %2.1fkm %s %dbpm fit:%.1f %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time, self.heartrate, self.fitness(), self.notes)
+        return "%s %2.1fkm %s %dbpm fit:%.1f int:%.1f %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time, self.heartrate, self.fitness(), self.intensity(), self.notes)
 
     def isTreadmill(self):
         return self.tagSet("TREADMILL")
 
     def isRace(self):
         return self.tagSet("RACE")
+        
+    def intensity(self):
+        if self.heartrate != 0:
+            return math.pow(1.06, math.log(self.distance, 2)) * (self.heartrate - 85) * (100.0 / 117)
+        else:
+            return 0
         
     def summaryString(self):
         if self.isRace():
@@ -42,9 +48,9 @@ class Activity:
             return "%s %.2fkm %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time)
 
     def fitScore(self, distance, seconds, heartrate, elevation):
-        speed = distance * 3600 / seconds
-        heartrateAdjust = (175 - 80) / (heartrate - 80)
-        elevationAdjust = (75 * elevation) / (distance * 1000)
+        speed = distance * 3600.0 / seconds
+        heartrateAdjust = (175.0 - 80) / (heartrate - 80)
+        elevationAdjust = (75.0 * elevation) / (distance * 1000)
         score = speed * heartrateAdjust + elevationAdjust
         return score
 
@@ -71,7 +77,7 @@ class Activity:
         heartrates = { 5  : 187.0,
                        10 : 181.0,
                        21 : 175.0,
-                       42 : 169.0 }
+                       42 : 170.0 }
 
         heartrate = heartrates[self.raceDistance()]
 

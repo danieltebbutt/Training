@@ -43,7 +43,7 @@ function drawChart() {\n")
         self.outputfile.write("</body>\n\
 </html>\n")
 
-    def writeFitness(self, data):
+    def writeActivityScore(self, data, fun, name):
         # indexed by (isRace, isTreadmill)
         pointColors = { (False, False) : "null",
                         (True, False)  : "ff0000",
@@ -51,22 +51,22 @@ function drawChart() {\n")
                         }
         self.outputfile.write("\
   var data%d = google.visualization.arrayToDataTable([\n\
-  ['Date', 'Fitness', {'type' : 'string', 'role' : 'style' }],\n"%self.chartIndex)
+  ['Date', '%s', {'type' : 'string', 'role' : 'style' }],\n"%(self.chartIndex, name))
 
         for activity in data.getFitness():
             self.outputfile.write("[new Date(%d,%d,%d),{v:%.1f, f:'%s'}, %s],\n"%(\
                                    activity.date.year,
                                    activity.date.month - 1,
                                    activity.date.day,
-                                   activity.fitness(),
+                                   eval("activity.%s"%fun),
                                    activity.summaryString(),
                                    "'point {fill-color: #%s}'"%pointColors[(activity.isRace(), activity.isTreadmill())]))
 
         self.outputfile.write("]);\n\
 \n\
   var options%d = {\n\
-    title: 'Fitness',\n\
-    legend: {position: 'none'},\n"%(self.chartIndex))
+    title: '%s',\n\
+    legend: {position: 'none'},\n"%(self.chartIndex, name))
         self.outputfile.write("trendlines: { 0: {} },\n")
         self.outputfile.write("explorer: { actions: ['dragToZoom', 'rightClickToReset'] }")
         
@@ -81,6 +81,12 @@ function drawChart() {\n")
                                        self.chartIndex, \
                                        self.chartIndex))
         self.chartIndex += 1
+
+    def writeFitness(self, data):
+        self.writeActivityScore(data, "fitness()", "Fitness")
+        
+    def writeIntensity(self, data):
+        self.writeActivityScore(data, "intensity()", "Intensity")
 
     def writeRaces12Weeks(self, data):
         self.writeRaces(data, 12)
@@ -100,7 +106,7 @@ function drawChart() {\n")
             startDate = endDate - timedelta(days = 1 + (leadUp * 7))
             training = data.range(startDate, endDate)
 
-            self.outputfile.write("[{v:%.1f, f:'%s'},%.1f, 'point {fill-color: %s}'],\n"%( \
+            self.outputfile.write("[{v:%.1f, f:'%s'},%.2f, 'point {fill-color: %s}'],\n"%( \
                                    training.kilometres(),                                     \
                                    activity.summaryString(),                                  \
                                    activity.raceFitness(),                                    \
@@ -256,6 +262,7 @@ function drawChart() {\n")
                  "###TREADMILL###" : (self.writeHomeTreadmill, False),
                  "###GYM###"       : (self.writeGymTreadmill, False),
                  "###RECORDS###"   : (self.writeRecords, False),
+                 "###INTENSITY###" : (self.writeIntensity, True),
                  }
 
         fileStream = open(join(self.templateDir,template), 'r')
