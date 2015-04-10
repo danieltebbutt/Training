@@ -19,18 +19,18 @@ Intensity
 <p>Drag to zoom in, right-click to reset.</p>
 <H4>Intensity measure</H4>
 <p>"Intensity" is a score based on the distance of a run and my heartrate.  It's calculated as:<br>
-(1.06 ^ log2(distance)) * (heartrate - 85) * (100 / 117)<br>
+(1.06 ^ log2(distance)) * (heartrate - 80) * (100 / 122)<br>
 Running twice as far with the same heart rate increases the score by 6%.  The score increases linearly with heart rate from 
-a base of 85 (which is approximately my heart rate when standing, ready to exercise, but not actually walking or running).
+a base of 80 (which is approximately my heart rate when standing, ready to exercise, but not actually walking or running).
 The score is scaled such that race intensity should be about 100.  
 <p>
 The idea is that the score is consistent across distances and is independent of fitness level - my intensity in a 5km race 
 should be roughly the same as in a marathon, regardless of how fit I am.  My expected heartrates for various distances is as follow:
 <ul>
-<li>5km: 187 bpm.  Intensity = 99.8
-<li>10km: 181 bpm.  Intensity = 99.6
-<li>21.1km: 175 bpm.  Intensity = 99.4
-<li>42.2km: 170 bpm.  Intensity = 99.5
+<li>5km: 187 bpm.  Intensity = 100.4
+<li>10km: 181 bpm.  Intensity = 100.5
+<li>21.1km: 175 bpm.  Intensity = 100.6
+<li>42.2km: 169 bpm.  Intensity = 99.9
 </ul>
 <p>
 My maximum heart rate is about 210, and plugging that into the formula suggests I could run about 400m at that intensity.  That feels

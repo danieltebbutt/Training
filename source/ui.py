@@ -1,8 +1,10 @@
 # UI for Dan's training application
 # This takes instructions as input and carries out actions
 
-from database import Database
+
 import sys
+
+from database import Database
 from googleImporter import GoogleImporter
 from garminImporter import GarminImporter
 from racesImporter import RacesImporter
@@ -36,9 +38,29 @@ class UI:
             'rangekilometres' : self.rangeKilometres,
             'run' : self.run,
             '' : self.noOp,
-            'races' : self.races
+            'races' : self.races,
+            'bestfit' : self.bestFit,
             }
 
+    def bestFit(self, data, arguments):
+        if not self.range:
+            print "Define range first"
+        else:
+            x = []
+            y = []
+            for activity in self.range.training:
+                x.append(activity.date.days)
+                y.append(activity.fitness())
+            
+            #slope, intercept, r, p, stderr = stats.lineregress(x, y)
+            
+            #print "%.2f Fit/month"%(slope*28)
+                        
+            
+                
+            
+            
+            
     def races(self, data, arguments):
         for race in data.getRaces():
             print
