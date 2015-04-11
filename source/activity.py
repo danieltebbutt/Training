@@ -37,7 +37,7 @@ class Activity:
         
     def intensity(self):
         if self.heartrate != 0:
-            return math.pow(1.06, math.log(self.distance, 2)) * (self.heartrate - 80) * (100.0 / 117)
+            return math.pow(1.06, math.log(self.distance, 2)) * (self.heartrate - 80) * (100.0 / 122)
         else:
             return 0
         
@@ -59,7 +59,8 @@ class Activity:
             # HM
             return 21
         elif self.distance > 41 and self.distance < 43:
-            # Marathon
+
+        # Marathon
             return 42
         elif self.distance > 9 and self.distance < 11:
             # 10k
