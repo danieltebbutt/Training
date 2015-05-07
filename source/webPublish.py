@@ -9,6 +9,9 @@ from os import listdir
 from os.path import isfile, join
 from shutil import copyfile
 import ftplib
+import ConfigParser
+import boto
+from boto.s3.key import Key
 
 class WebPublish:
 
@@ -23,15 +26,33 @@ class WebPublish:
                 
         for source in sourceFiles:
             copyfile(join(self.sourceDir, source), join(self.intermediateDir, source))
+          
+        config = ConfigParser.ConfigParser()
+        config.readfp(open('training.ini'))
+        type = config.get("webPublish", "type")
+        destination = config.get("webPublish", "destination")
+
+        if type == "FTP":
+            session = ftplib.FTP("ftp.%s"%destination)
+            session.login(self.domain, self.password)
             
+        elif type == "AWS":
+            s3 = boto.connect_s3()
+            bucket = s3.get_bucket(destination)
+                    
         for source in sourceFiles:    
             file = open(join(self.intermediateDir, source), 'rb')
-            session = ftplib.FTP("ftp.%s"%self.domain)
-            session.login(self.domain, self.password)
-            session.storbinary(join("STOR wwwroot\\", source), file)
-            file.close()
-            session.quit()
-
+            
+            if type == "FTP":
+                session.storbinary(join("STOR wwwroot\\", source), file)
+            elif type == "AWS":
+                k = Key(bucket)
+                k.key = source
+                k.set_contents_from_file(file)
+                
             webbrowser.open("http://www.%s/%s"%(self.domain, source))
+            file.close()
 
-
+        if type == "FTP":
+            session.quit()
+            

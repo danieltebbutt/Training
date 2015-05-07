@@ -5,6 +5,7 @@ import os
 import csv
 import urllib2
 import ConfigParser
+import ssl
 
 from datetime import date
 from datetime import time

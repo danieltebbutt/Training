@@ -55,11 +55,6 @@ class UI:
             #slope, intercept, r, p, stderr = stats.lineregress(x, y)
             
             #print "%.2f Fit/month"%(slope*28)
-                        
-            
-                
-            
-            
             
     def races(self, data, arguments):
         for race in data.getRaces():
