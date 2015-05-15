@@ -1,6 +1,8 @@
 <HTML>
 <HEAD>
 <TITLE>Intensity</TITLE>
+<SCRIPT SRC="jquery-1.11.3.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
@@ -197,6 +199,9 @@ function drawChart() {
 [new Date(2015,4,4),{v:67.6, f:'2015-May-04 5.00km 0:30:00'}, 'point {fill-color: #32cd32}'],
 [new Date(2015,4,5),{v:80.1, f:'2015-May-05 8.00km 0:48:00'}, 'point {fill-color: #32cd32}'],
 [new Date(2015,4,7),{v:77.2, f:'2015-May-07 7.00km 0:42:00'}, 'point {fill-color: #32cd32}'],
+[new Date(2015,4,10),{v:77.6, f:'2015-May-10 15.87km 1:32:42'}, 'point {fill-color: #null}'],
+[new Date(2015,4,12),{v:69.4, f:'2015-May-12 5.00km 0:30:00'}, 'point {fill-color: #32cd32}'],
+[new Date(2015,4,14),{v:84.2, f:'2015-May-14 9.50km 0:52:47'}, 'point {fill-color: #null}'],
 ]);
 
   var options1 = {
@@ -212,17 +217,9 @@ explorer: { actions: ['dragToZoom', 'rightClickToReset'] }  };
     </script>
 </HEAD>
 <BODY>
-<DIV ALIGN="Right">
-<A HREF="index.html">Back to main menu</A>
-</DIV>
-<DIV ALIGN="Center">
-<CENTER>
-<H1>
-Intensity
-</H1>
-</CENTER>
-</DIV>
-<BODY>
+<DIV ID="REPLACEME"></DIV>
+<SCRIPT SRC="standard.js"></SCRIPT>
+<div style="overflow:hidden">
 <div id="chart_div1" style="width: 900px; height: 500px;"></div>
 <p>(Red = race, blue = training run, green = treadmill run).</p>
 <p>Drag to zoom in, right-click to reset.</p>
@@ -244,5 +241,6 @@ should be roughly the same as in a marathon, regardless of how fit I am.  My exp
 <p>
 My maximum heart rate is about 210, and plugging that into the formula suggests I could run about 400m at that intensity.  That feels
 just about doable (although I don't fancy trying it!) - suggesting that it applies to quite a wide range of distances.
+</DIV>
 </BODY>
 </HTML>
