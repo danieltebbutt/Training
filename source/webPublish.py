@@ -30,6 +30,7 @@ class WebPublish:
         config = ConfigParser.ConfigParser()
         config.readfp(open('training.ini'))
         type = config.get("webPublish", "type")
+	openAfter = config.get("webPublish", "open_after") == "yes"
         destination = config.get("webPublish", "destination")
 
         if type == "FTP":
@@ -50,7 +51,8 @@ class WebPublish:
                 k.key = source
                 k.set_contents_from_file(file)
                 
-            webbrowser.open("http://www.%s/%s"%(self.domain, source))
+            if openAfter:
+                webbrowser.open("http://www.%s/%s"%(self.domain, source))
             file.close()
 
         if type == "FTP":
