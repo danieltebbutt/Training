@@ -66,7 +66,8 @@ function drawChart() {\n")
 \n\
   var options%d = {\n\
     title: '%s',\n\
-    legend: {position: 'none'},\n"%(self.chartIndex, name))
+    legend: {position: 'none'},\n\
+    backgroundColor: { fill: 'transparent' },\n"%(self.chartIndex, name))
         self.outputfile.write("trendlines: { 0: {} },\n")
         self.outputfile.write("explorer: { actions: ['dragToZoom', 'rightClickToReset'] }")
         
@@ -116,7 +117,8 @@ function drawChart() {\n")
 \n\
   var options%d = {\n\
     title: 'Race performance vs training over last %d weeks',\n\
-    legend: {position: 'none'},\n"%(self.chartIndex, \
+    legend: {position: 'none'},\n\
+    backgroundColor: { fill: 'transparent' },\n"%(self.chartIndex, \
                                    leadUp))
 
         self.outputfile.write("trendlines: { 0: {} }")
@@ -151,6 +153,7 @@ function drawChart() {\n")
   var options%d = {\n\
     title: 'Kilometres per %s',\n\
     legend: {position: 'none'},\n\
+    backgroundColor: { fill: 'transparent' },\n\
     vAxis: {viewWindowMode:'explicit', viewWindow:{min:0}}\n\
   };\n\
 \n\
