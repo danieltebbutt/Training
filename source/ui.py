@@ -11,6 +11,7 @@ from racesImporter import RacesImporter
 from googleWebImporter import GoogleWebImporter
 from importer import Importer
 from webExporter import WebExporter
+from newsExporter import NewsExporter
 from webPublish import WebPublish
 from datetime import datetime
 from datetime import timedelta
@@ -94,22 +95,23 @@ class UI:
 
     def publishHTML(self, data, arguments):
         usage = "\
-Usage: publish <sourceDir> <intermediateDir> <domain> <password>"
+Usage: publish <sourceDir> <intermediateDir> <targetDir> <domain> <password>"
 
         if not " " in arguments:
             self.error(usage)
             return
 
-        (sourceDir, intermediateDir, domain, password) = arguments.split(' ', 3)
+        (sourceDir, intermediateDir, targetDir, domain, password) = arguments.split(' ', 4)
 
-        webPublish = WebPublish(sourceDir, intermediateDir, domain, password)
+        webPublish = WebPublish(sourceDir, intermediateDir, targetDir, domain, password)
 
         webPublish.publish()
 
     def exportData(self, data, arguments):
         usage = "\
 Usage: export HTMLCharts <filename>\n\
-       export HTMLTemplate <outputDirectory> <templateDirectory>"
+       export HTMLTemplate <outputDirectory> <templateDirectory>\n\
+       export HTMLNews <filename>\n"
         if " " in arguments:
             (type, arguments) = arguments.split(' ', 1)
         else:
@@ -126,6 +128,9 @@ Usage: export HTMLCharts <filename>\n\
                 self.error(usage)
                 return
             exporter = WebExporter(outputDir = outputDir, templateDir = templateDir)
+        elif type == "HTMLNews":
+            filename = arguments            
+            exporter = NewsExporter(filename = filename)
         else:
             self.error("Type '%s' not recognized"%type)
             self.error(usage)

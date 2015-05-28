@@ -17,7 +17,7 @@ class Period:
             self.removeActivity(self.dateList[newActivity.date])
 
         self.training.append(newActivity)
-        if self.startDate == None or self.startDate < newActivity.date:
+        if self.startDate == None or self.startDate > newActivity.date:
             self.startDate = newActivity.date
 
         self.dateList[newActivity.date] = newActivity
@@ -86,6 +86,30 @@ class Period:
 
         weeks.append(thisWeek)
         return weeks
+
+    def getMonths(self):
+        months = []
+        startDate = None
+        thisWeek = None
+        for activity in self.sorted():
+            if startDate == None:
+                startDate = activity.date.replace(day=1)
+                thisMonth = Period()
+
+            # Fill in any months with no running; start new week if required
+            while (activity.date.year, activity.date.month) != (startDate.year, startDate.month):                
+                months.append(thisMonth)
+                if startDate.month == 12:
+                    startDate = startDate.replace(year = startDate.year+1, month = 1)
+                else:
+                    startDate = startDate.replace(month = startDate.month+1)
+                thisMonth = Period(startDate)
+
+            # Now thisWeek should exist and be the right one to use
+            thisMonth.addActivity(activity)
+
+        months.append(thisMonth)
+        return months
 
     def getFitness(self):
         fitness = []

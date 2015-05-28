@@ -12,18 +12,23 @@ import ftplib
 import ConfigParser
 import boto
 from boto.s3.key import Key
+import ntpath
+import posixpath
 
 class WebPublish:
 
-    def __init__(self, sourceDir, intermediateDir, domain, password):
+    def __init__(self, sourceDir, intermediateDir, targetDir, domain, password, ):
         self.sourceDir = sourceDir
         self.intermediateDir = intermediateDir
         self.domain = domain
         self.password = password
+        if targetDir == ".":
+            self.targetDir = ""
+        else:
+            self.targetDir = targetDir
         
     def publish(self):
         sourceFiles = [ f for f in listdir(self.sourceDir) if isfile(join(self.sourceDir,f)) ]
-                
         for source in sourceFiles:
             copyfile(join(self.sourceDir, source), join(self.intermediateDir, source))
           
@@ -45,14 +50,18 @@ class WebPublish:
             file = open(join(self.intermediateDir, source), 'rb')
             
             if type == "FTP":
-                session.storbinary(join("STOR wwwroot\\", source), file)
+                session.storbinary(join("STOR wwwroot\\", ntpath.join(self.targetDir, source)), file)
             elif type == "AWS":
-                k = Key(bucket)
-                k.key = source
+                k = Key(bucket)                
+                k.key = posixpath.join(self.targetDir,source)
                 k.set_contents_from_file(file)
                 
             if openAfter:
-                webbrowser.open("http://www.%s/%s"%(self.domain, source))
+                if self.targetDir:
+                    webbrowser.open("http://www.%s/%s"%(self.domain, source))
+                else:
+                    webbrowser.open("http://www.%s/%s/%s"%(self.domain, self.targetDir, source))
+                    
             file.close()
 
         if type == "FTP":
