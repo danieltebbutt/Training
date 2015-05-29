@@ -10,20 +10,18 @@ class NewsExporter(Exporter):
     def writeRuns(self, data):
         
         for activity in data.training:
-            line = ""
-            line += activity.date.strftime("%Y-%m-%d")
-            line += ","
-            if activity.isRace():
-                line += "Ran %s in %s"%(activity.raceName, activity.time)
-            else:
-                line += "Ran %.1fkm in %s"%(activity.distance, activity.time)
-            line += ","
+            date = activity.date.strftime("%Y-%m-%d")
+
             if activity.isRace():
                 score = 75
+                type = "RACE"
+                desc = "Ran %s in %s"%(activity.raceName, activity.time)
             else:
                 score = activity.distance * 2
-            line += "%d"%score
-            line += "\n"
+                type = "RUN"
+                desc = "Ran %.1fkm in %s"%(activity.distance, activity.time)
+
+            line = "%s,%s,%s,%d\n"%(type, date, desc, score)
             self.outputfile.write(line)
 
     def writeMonthlySummaries(self, data):
@@ -39,10 +37,29 @@ class NewsExporter(Exporter):
                 reportDate = month.startDate.replace(month = month.startDate.month + 1)
             
             line = ""
+            line += "RUNTOTAL,"
             line += reportDate.strftime("%Y-%m-%d")
             line += ","
             line += "%s running total: %dkm"%(month.startDate.strftime("%B"), distance)
             line += ",50\n"
+            if reportDate < datetime.today().date():
+                self.outputfile.write(line)
+
+    def writeYearlySummaries(self, data):
+        
+        for year in data.getYears():
+            distance = 0.0
+            for activity in year.training:
+                distance += activity.distance
+            
+            reportDate = year.startDate.replace(year = year.startDate.year + 1)
+            
+            line = ""
+            line += "RUNTOTAL,"
+            line += reportDate.strftime("%Y-%m-%d")
+            line += ","
+            line += "%d running total: %dkm"%(year.startDate.year, distance)
+            line += ",100\n"
             if reportDate < datetime.today().date():
                 self.outputfile.write(line)
 
@@ -52,7 +69,7 @@ class NewsExporter(Exporter):
 
         self.writeRuns(data)
         self.writeMonthlySummaries(data)
-        #self.writeYearlySummaries(data)
+        self.writeYearlySummaries(data)
         
         self.outputfile.close()
 

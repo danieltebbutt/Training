@@ -90,7 +90,7 @@ class Period:
     def getMonths(self):
         months = []
         startDate = None
-        thisWeek = None
+        thisMonth = None
         for activity in self.sorted():
             if startDate == None:
                 startDate = activity.date.replace(day=1)
@@ -110,6 +110,27 @@ class Period:
 
         months.append(thisMonth)
         return months
+
+    def getYears(self):
+        years = []
+        startDate = None
+        thisYear = None
+        for activity in self.sorted():
+            if startDate == None:
+                startDate = activity.date.replace(day=1, month=1)
+                thisYear = Period()
+
+            # Fill in any months with no running; start new week if required
+            while activity.date.year != startDate.year:                
+                years.append(thisYear)
+                startDate = startDate.replace(year = startDate.year+1)
+                thisYear = Period(startDate)
+
+            # Now thisWeek should exist and be the right one to use
+            thisYear.addActivity(activity)
+
+        years.append(thisYear)
+        return years
 
     def getFitness(self):
         fitness = []
