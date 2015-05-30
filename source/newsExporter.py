@@ -41,7 +41,7 @@ class NewsExporter(Exporter):
             line += reportDate.strftime("%Y-%m-%d")
             line += ","
             line += "%s running total: %dkm"%(month.startDate.strftime("%B"), distance)
-            line += ",50\n"
+            line += ",%d\n"%(10 + (distance / 4))
             if reportDate < datetime.today().date():
                 self.outputfile.write(line)
 
@@ -59,7 +59,7 @@ class NewsExporter(Exporter):
             line += reportDate.strftime("%Y-%m-%d")
             line += ","
             line += "%d running total: %dkm"%(year.startDate.year, distance)
-            line += ",100\n"
+            line += ",%d\n"%(10 + (distance / 10))
             if reportDate < datetime.today().date():
                 self.outputfile.write(line)
 
