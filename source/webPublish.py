@@ -57,7 +57,7 @@ class WebPublish:
                 k.set_contents_from_file(file)
                 
             if openAfter and ".html" in source:
-                if self.targetDir != "":
+                if self.targetDir == "":
                     webbrowser.open("http://www.%s/%s"%(self.domain, source))
                 else:
                     webbrowser.open("http://www.%s/%s/%s"%(self.domain, self.targetDir, source))
