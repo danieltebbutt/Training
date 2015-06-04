@@ -17,7 +17,7 @@ class NewsExporter(Exporter):
                 type = "RACE"
                 desc = "Ran %s in %s"%(activity.raceName, activity.time)
             else:
-                score = activity.distance * 2
+                score = 10 + activity.distance
                 type = "RUN"
                 desc = "Ran %.1fkm in %s"%(activity.distance, activity.time)
 
