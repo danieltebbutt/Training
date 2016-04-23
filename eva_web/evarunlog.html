@@ -1,6 +1,8 @@
 <HTML>
 <HEAD>
 <TITLE>Eva's running log</TITLE>
+<SCRIPT SRC="jquery-1.11.3.js"></SCRIPT>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
@@ -9,7 +11,7 @@ function drawChart() {
   var data1 = google.visualization.arrayToDataTable([
   ['Week', 'Kilometres', {'type' : 'string', 'role' : 'style' }],
 ['Dec-2014',0.6, null],
-['Jan-2015',0.6, null],
+['Dec-2014',0.6, null],
 ['Jan-2015',1.1, null],
 ['Jan-2015',0.6, null],
 ['Jan-2015',0.7, null],
@@ -25,13 +27,49 @@ function drawChart() {
 ['Mar-2015',0.0, null],
 ['Apr-2015',2.2, null],
 ['Apr-2015',1.8, null],
+['Apr-2015',0.6, '#ff0000'],
 ['Apr-2015',0.0, null],
-['Apr-2015',0.6, null],
+['May-2015',0.0, null],
+['May-2015',1.0, null],
+['May-2015',0.0, null],
+['May-2015',0.0, null],
+['Jun-2015',0.0, null],
+['Jun-2015',0.0, null],
+['Jun-2015',0.0, null],
+['Jun-2015',0.0, null],
+['Jun-2015',0.0, null],
+['Jul-2015',0.0, null],
+['Jul-2015',0.0, null],
+['Jul-2015',0.0, null],
+['Jul-2015',0.0, null],
+['Aug-2015',0.0, null],
+['Aug-2015',0.0, null],
+['Aug-2015',0.0, null],
+['Aug-2015',0.0, null],
+['Aug-2015',0.0, null],
+['Sep-2015',0.0, null],
+['Sep-2015',0.0, null],
+['Sep-2015',0.0, null],
+['Sep-2015',0.0, null],
+['Oct-2015',0.0, null],
+['Oct-2015',0.0, null],
+['Oct-2015',0.0, null],
+['Oct-2015',0.0, null],
+['Nov-2015',0.0, null],
+['Nov-2015',0.0, null],
+['Nov-2015',0.0, null],
+['Nov-2015',0.0, null],
+['Nov-2015',0.0, null],
+['Dec-2015',0.0, null],
+['Dec-2015',0.0, null],
+['Dec-2015',0.0, null],
+['Dec-2015',0.6, null],
 ]);
 
   var options1 = {
     title: 'Kilometres per week',
     legend: {position: 'none'},
+    backgroundColor: { fill: 'transparent' },
     vAxis: {viewWindowMode:'explicit', viewWindow:{min:0}}
   };
 
@@ -42,19 +80,12 @@ function drawChart() {
     </script>
 </HEAD>
 <BODY>
-<DIV ALIGN="Right">
-<A HREF="index.html">Back to main menu</A>
-</DIV>
-<DIV ALIGN="Center">
-<CENTER>
-<H1>
-Eva's running log
-</H1>
-</CENTER>
-</DIV>
-<BODY>
+<DIV ID="REPLACEME"></DIV>
+<SCRIPT SRC="standard.js"></SCRIPT>
+<div style="overflow:hidden">
 <p>
 <div id="chart_div1" style="width: 900px; height: 500px;"></div>
-<p>Red columns are weeks with a race in.</p>
+<p>Red columns are weeks with a race in.
+</DIV>
 </BODY>
 </HTML>

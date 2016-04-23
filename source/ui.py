@@ -3,6 +3,7 @@
 
 
 import sys
+import math
 
 from database import Database
 from googleImporter import GoogleImporter
@@ -41,7 +42,66 @@ class UI:
             '' : self.noOp,
             'races' : self.races,
             'bestfit' : self.bestFit,
+            'effectiveness' : self.effectiveness,
             }
+
+    def std_dev(self, nums, mean):
+        sum_sq = 0
+        for num in nums:
+            sum_sq += (num - mean)*(num - mean)
+        sum_sq /= float(len(nums))
+        std_dev = math.sqrt(sum_sq)
+        return std_dev
+
+    def correlation(self, x, y, mean_x, mean_y):
+        ab_sum = 0
+        aa_sum = 0
+        bb_sum = 0
+        for xx, yy in zip(x, y):
+            a = xx - mean_x
+            b = yy - mean_y
+            ab_sum += a*b
+            aa_sum += a*a
+            bb_sum += b*b
+        corr = ab_sum / math.sqrt(aa_sum * bb_sum)
+        return corr
+
+    def effectiveness(self, data, arguments):
+        filtered = data
+        if len(arguments) >= 1:
+            weeks = int(arguments.split(' ')[0])
+        if len(arguments) >= 2:
+            filtered = data.filter(arguments.split(' ')[1])
+        x = []
+        y = []
+        for activity in filtered.training:
+            newRange = data.range(activity.date - timedelta(days = weeks * 7), activity.date - timedelta(days = 1))
+            training = 0
+            for trainingRun in newRange.training:
+                training += trainingRun.distance
+            fitness = activity.fitness()
+            if (activity.isRace()):
+                fitness = activity.raceFitness()
+            if (fitness > 0):
+                y.append(fitness)
+                x.append(training)
+
+        mean_x = sum(x) / float(len(x))
+        mean_y = sum(y) / float(len(y))
+
+        std_dev_x = self.std_dev(x, mean_x)
+        std_dev_y = self.std_dev(y, mean_y) 
+
+        corr = self.correlation(x, y, mean_x, mean_y)
+       
+        slope = corr * (std_dev_y / std_dev_x)
+ 
+        intercept = mean_y - slope * mean_x
+
+        print "slope = %f\nintercept = %f\ncorrelation = %f"%(slope, intercept, corr)
+
+       #     print "%f %f %f %f"%(slope, intercept, r, p)
+
 
     def bestFit(self, data, arguments):
         if not self.range:

@@ -15,6 +15,90 @@
 <p>The performance assessment is almost identical to the fitness measure described <a HREF="fitness.html">here</A>, but rather than using my actual heart rate during the race, it uses an expected heart rate based on the race distance (175bpm for a HM, higher for shorter races, lower for longer races).</p>
 <p>The points are colour-coded: <font color='#ff0000'>marathon</font>, <font color='#ff8000'>half-marathon</font>, <font color='#ffd700'>10k</font>, <font color='#32cd32'>5k</font>.  Hover over a point to see more details.</p>
 <p>You'd expect a strong correlation here, and that's what you see - training more in the 3 months before a race leads to me doing better in that race.  But it's no guarantee of success.</p>
+<p>
+<H4>Race predicter:</H4>
+<p>Enter fitness if known, else number of kilometres run in last 12 weeks.<br>
+<SCRIPT>
+function numberify(number)
+{
+    if (isNaN(number))
+    {
+      return 0;
+    }
+    else
+    {
+      return number;
+    }
+}
+
+function pad(number)
+{
+  if (number < 10)
+  {
+    number = "0" + number;
+  }
+  return number;
+}
+
+function predict()
+{
+distance = document.getElementById("distance").value;
+training = numberify(document.getElementById("training").value);
+fitness = numberify(document.getElementById("fitness").value);
+elevation = numberify(document.getElementById("elevation").value);
+gradient = elevation / (10 * distance);
+
+ratio = 1.0;
+if (distance == 5)
+{
+ratio = 107 / 95;
+}
+else if (distance == 10)
+{
+ratio = 101 / 95;
+}
+else if (distance == 42.2)
+{
+ratio = 90/95;
+}
+
+if (training == 0 && fitness == 0)
+{
+  alert("Fill in either fitness or training");
+  return;
+}
+
+if (training > 0 && fitness == 0)
+{
+  fitness = training * 0.005029 + 10.333854;
+  document.getElementById("fitness").value = "(predicted) " + parseFloat(fitness.toFixed(2));
+}
+
+fitness -= gradient * 0.75;
+
+speed = ratio * fitness;
+time = distance / speed;
+time = time * 3600;
+seconds = pad(Math.round(time % 60));
+minutes = pad(Math.floor((time / 60) % 60));
+hours = pad(Math.floor(time / 3600));
+
+result = hours + ":" + minutes + ":" + seconds;  
+
+document.getElementById("prediction").value = result;
+}
+</SCRIPT>
+<SELECT ID="distance">Distance
+<OPTION VALUE=5.0>5km</OPTION>
+<OPTION VALUE=10.0>10km</OPTION>
+<OPTION VALUE=21.1>Half</OPTION>
+<OPTION VALUE=42.2>Marathon</OPTION>
+</SELECT><BR>
+<INPUT ID="elevation" PLACEHOLDER="Elevation gain metres"></INPUT><BR>
+<INPUT ID="training" PLACEHOLDER="Training kms"></INPUT><BR>
+<INPUT ID="fitness" PLACEHOLDER="Fitness"></INPUT><BR>
+<INPUT TYPE="button" onClick="predict()" VALUE="Go!"></INPUT><BR>
+<INPUT TYPE="text" ID="prediction" PLACEHOLDER="Finish Time"></INPUT><BR>
 </DIV>
 </BODY>
 </HTML>

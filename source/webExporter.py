@@ -92,6 +92,9 @@ function drawChart() {\n")
     def writeRaces12Weeks(self, data):
         self.writeRaces(data, 12)
 
+    def writeRaces8Weeks(self, data):
+        self.writeRaces(data, 8)
+
     def writeRaces(self, data, leadUp):
         pointColors = { 5  : "#32cd32",
                         10 : "#ffd700",
