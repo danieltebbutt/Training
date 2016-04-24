@@ -68,7 +68,7 @@ function drawChart() {\n")
     title: '%s',\n\
     legend: {position: 'none'},\n\
     backgroundColor: { fill: 'transparent' },\n"%(self.chartIndex, name))
-        self.outputfile.write("trendlines: { 0: {} },\n")
+#        self.outputfile.write("trendlines: { 0: {} },\n")
         self.outputfile.write("explorer: { actions: ['dragToZoom', 'rightClickToReset'] }")
         
         self.outputfile.write("\
@@ -95,7 +95,7 @@ function drawChart() {\n")
     def writeRaces8Weeks(self, data):
         self.writeRaces(data, 8)
 
-    def writeRaces(self, data, leadUp):
+    def writeRaces(self, data, leadUp):  
         pointColors = { 5  : "#32cd32",
                         10 : "#ffd700",
                         21 : "#ff8000",
@@ -137,6 +137,50 @@ function drawChart() {\n")
                                        self.chartIndex))
         self.chartIndex += 1
 
+    def writeTraining(self, data):  
+        pointColors = { False  : "ff0000",
+                        True  : "32cd32",
+                        }
+
+        leadUp = 12
+                        
+        self.outputfile.write("\
+  var data%d = google.visualization.arrayToDataTable([\n\
+  ['%d weeks', 'Performance', {'type' : 'string', 'role' : 'style' } ],\n"%(self.chartIndex, leadUp))
+
+        for activity in data.training:
+            if (activity.fitness() != 0):            
+                endDate = activity.date - timedelta(days = 1)
+                startDate = endDate - timedelta(days = 1 + (leadUp * 7))
+                training = data.range(startDate, endDate)
+
+                self.outputfile.write("[{v:%.1f, f:'%s'},%.2f, 'point {fill-color: %s}'],\n"%( \
+                                       training.kilometres(),                                     \
+                                       activity.summaryString(),                                  \
+                                       activity.fitness(),                                    \
+                                       pointColors[activity.isTreadmill()]))
+
+        self.outputfile.write("]);\n\
+\n\
+  var options%d = {\n\
+    title: 'Fitness vs training over last %d weeks',\n\
+    legend: {position: 'none'},\n\
+    backgroundColor: { fill: 'transparent' },\n"%(self.chartIndex, \
+                                   leadUp))
+
+        self.outputfile.write("trendlines: { 0: {} }")
+        self.outputfile.write("\
+  };\n\
+\n\
+  var chart%d = new google.visualization.ScatterChart(document.getElementById('chart_div%d'));\n\
+\n\
+  chart%d.draw(data%d, options%d);\n"%(self.chartIndex, \
+                                       self.chartIndex, \
+                                       self.chartIndex, \
+                                       self.chartIndex, \
+                                       self.chartIndex))
+        self.chartIndex += 1
+                
     def writeWeekly(self, data):
         self.writePeriods(data.getWeeks(), "week")
 
@@ -269,6 +313,7 @@ function drawChart() {\n")
                  "###GYM###"       : (self.writeGymTreadmill, False),
                  "###RECORDS###"   : (self.writeRecords, False),
                  "###INTENSITY###" : (self.writeIntensity, True),
+                 "###TRAINING###"  : (self.writeTraining, True),
                  }
 
         fileStream = open(join(self.templateDir,template), 'r')
