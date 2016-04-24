@@ -138,7 +138,7 @@ function drawChart() {\n")
         self.chartIndex += 1
 
     def writeTraining(self, data):  
-        pointColors = { False  : "ff0000",
+        pointColors = { False  : "null",
                         True  : "32cd32",
                         }
 
