@@ -43,8 +43,8 @@ class WebPublish:
             session.login(self.domain, self.password)
             
         elif type == "AWS":
-            s3 = boto.connect_s3()
-            bucket = s3.get_bucket(destination)
+            s3 = boto.connect_s3(is_secure = False)
+            bucket = s3.get_bucket(destination, validate=False)
                     
         for source in sourceFiles:    
             file = open(join(self.intermediateDir, source), 'rb')

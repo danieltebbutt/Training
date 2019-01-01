@@ -38,7 +38,7 @@ function drawChart() {\n")
   </head>\n\
   <body>\n")
         for ii in range(1,self.chartIndex):
-            self.outputfile.write("<div id=\"chart_div%d\" style=\"width: 900px; height: 500px;\"></div>\n"%ii)
+            self.outputfile.write("<div id=\"chart_div%d\" style=\"width: 1000px; height: 500px;\"></div>\n"%ii)
 
         self.outputfile.write("</body>\n\
 </html>\n")
@@ -278,7 +278,17 @@ function drawChart() {\n")
         self.outputfile.write("<li>Number of runs:     %d</li>\n"%len(data.training))
         self.outputfile.write("<li>Time spent running: %d hours</li>\n"%self.timedeltaToHMS(data.time())[0])
         self.outputfile.write("</ul>\n")
+
+        # Per year
+        self.outputfile.write("<p>Distance per year:</p>\n")
+        self.outputfile.write("<ul>\n")
         
+        for year in range(2012, datetime.now().year + 1):
+            year_data = data.range(datetime(year=year,month=1,day=1).date(),datetime(year=year,month=12,day=31).date())
+            self.outputfile.write("<li>%d:                 %dkm</li>\n"%(year, year_data.kilometres()))
+        self.outputfile.write("</ul>\n")
+
+ 
         # Averages
         self.outputfile.write("<p>Average:</p>\n")
         self.outputfile.write("<ul>\n")
@@ -298,8 +308,8 @@ function drawChart() {\n")
         self.outputfile.write("<li>Highest average HR: %d</li>\n"%data.highestHR())
         self.outputfile.write("<li>5km:                %2d:%02d</li>\n"%self.timedeltaToMS(data.bestTime(5)))
         self.outputfile.write("<li>10km:               %2d:%02d</li>\n"%self.timedeltaToMS(data.bestTime(10)))
-        self.outputfile.write("<li>21km:               %d:%2d:%02d</li>\n"%self.timedeltaToHMS(data.bestTime(21.1)))
-        self.outputfile.write("<li>42km:               %d:%2d:%02d</li>\n"%self.timedeltaToHMS(data.bestTime(42.2)))
+        self.outputfile.write("<li>21km:               %d:%02d:%02d</li>\n"%self.timedeltaToHMS(data.bestTime(21.1)))
+        self.outputfile.write("<li>42km:               %d:%02d:%02d</li>\n"%self.timedeltaToHMS(data.bestTime(42.2)))
         self.outputfile.write("</ul>\n")
         
                   
@@ -342,7 +352,7 @@ function drawChart() {\n")
                     self.writeScriptFooter()
                 self.outputfile.write(line)
             elif line.strip() in writeTags:
-                self.outputfile.write("<div id=\"chart_div%d\" style=\"width: 900px; height: 500px;\"></div>\n"%writeTags[tag])
+                self.outputfile.write("<div id=\"chart_div%d\" style=\"width: 1000px; height: 500px;\"></div>\n"%writeTags[tag])
             elif line.strip() in tags:
                 tags[line.strip()][0](data)
             else:

@@ -42,7 +42,7 @@ class NewsExporter(Exporter):
             line += ","
             line += "%s running total: %dkm"%(month.startDate.strftime("%B"), distance)
             line += ",%d\n"%(10 + (distance / 4))
-            if reportDate < datetime.today().date():
+            if reportDate <= datetime.today().date():
                 self.outputfile.write(line)
 
     def writeYearlySummaries(self, data):
