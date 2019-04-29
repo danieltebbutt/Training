@@ -38,7 +38,7 @@ function drawChart() {\n")
   </head>\n\
   <body>\n")
         for ii in range(1,self.chartIndex):
-            self.outputfile.write("<div id=\"chart_div%d\" style=\"width: 1000px; height: 500px;\"></div>\n"%ii)
+            self.outputfile.write("<div id=\"chart_div%d\" style=\"width: 800px; height: 500px;\"></div>\n"%ii)
 
         self.outputfile.write("</body>\n\
 </html>\n")
@@ -182,7 +182,7 @@ function drawChart() {\n")
         self.chartIndex += 1
                 
     def writeWeekly(self, data):
-        self.writePeriods(data.getWeeks(), "week")
+        self.writePeriods(data.getWeeks()[-208:], "week")
 
     def writePeriods(self, periods, periodName):
         self.outputfile.write("\
@@ -257,6 +257,14 @@ function drawChart() {\n")
           cost / runs.kilometres(),          \
           cost / len(runs.training)))
 
+    def writeRecent(self, data):
+        endDate = datetime.today().date()
+        startDate = endDate - timedelta(weeks = 12)
+ 
+        runs = data.range(startDate, endDate)
+
+        self.outputfile.write("%.1f km run in the last 12 weeks."%runs.kilometres())
+
     def timedeltaToHMS(self, timedelta):
         hours = timedelta.total_seconds() / 3600
         minutes = (timedelta.total_seconds() / 60) % 60
@@ -324,6 +332,7 @@ function drawChart() {\n")
                  "###RECORDS###"   : (self.writeRecords, False),
                  "###INTENSITY###" : (self.writeIntensity, True),
                  "###TRAINING###"  : (self.writeTraining, True),
+                 "###RECENT###"    : (self.writeRecent, False),
                  }
 
         fileStream = open(join(self.templateDir,template), 'r')
@@ -352,7 +361,7 @@ function drawChart() {\n")
                     self.writeScriptFooter()
                 self.outputfile.write(line)
             elif line.strip() in writeTags:
-                self.outputfile.write("<div id=\"chart_div%d\" style=\"width: 1000px; height: 500px;\"></div>\n"%writeTags[tag])
+                self.outputfile.write("<div id=\"chart_div%d\" style=\"width: 800px; height: 500px;\"></div>\n"%writeTags[tag])
             elif line.strip() in tags:
                 tags[line.strip()][0](data)
             else:
