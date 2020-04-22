@@ -29,6 +29,15 @@ class Activity:
     def toLongString(self):
         return "%s %2.1fkm %s %dbpm fit:%.1f int:%.1f %s"%(self.date.strftime("%Y-%b-%d"), self.distance, self.time, self.heartrate, self.fitness(), self.intensity(), self.notes)
 
+    def raceDate(self):
+        if self.tagSet("RACE"):
+            return "%s %s"%(self.raceName, self.date.strftime("%Y-%b-%d"))
+        else:
+            return "Training run %s"%self.date.strftime("%Y-%b-%d")
+
+    def pace(self):
+        return (self.time.total_seconds() / self.distance)
+
     def isTreadmill(self):
         return self.tagSet("TREADMILL")
 

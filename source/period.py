@@ -1,4 +1,4 @@
-# Period for Dan's training application.
+# Perio for Dan's training application.
 # This contains all training information for a period of time.
 
 from activity import Activity
@@ -13,14 +13,19 @@ class Period:
         self.dateList = {}
 
     def addActivity(self, newActivity):
-        if newActivity.date in self.dateList:
+        # Some clashing data before this date, but afterwards there are some days with >1 run
+        if newActivity.date in self.dateList and newActivity.date < date(2015, 1, 1):
             self.removeActivity(self.dateList[newActivity.date])
+            print "Removing date %s"%newActivity.date
 
         self.training.append(newActivity)
         if self.startDate == None or self.startDate > newActivity.date:
             self.startDate = newActivity.date
 
-        self.dateList[newActivity.date] = newActivity
+        # If there's a clash then decide which to store based on pace
+	if not newActivity.date in self.dateList or \
+           self.dateList[newActivity.date].pace() > newActivity.pace():
+            self.dateList[newActivity.date] = newActivity
 
     def registerRace(self, date, name):
         if not date in self.dateList:
@@ -179,14 +184,39 @@ class Period:
         for activity in self.training:
             heartrate = max(heartrate, activity.heartrate)
         return heartrate
-        
-    def bestTime(self, distance):
+    
+    def longestStreak(self):
+        longest = 0
+        datelist = [ activity.date for activity in self.training ]
+        datelist.sort()
+        streak = 1
+        lastdate = date(2000, 1, 1)
+        for rundate in datelist:
+            print "%s %d %d"%(rundate, longest, streak)
+            if (rundate - lastdate).days == 1:
+                streak = streak + 1
+            elif (rundate - lastdate).days > 1:
+                streak = 1
+            if streak > longest:
+                longest = streak
+            lastdate = rundate
+        return longest
+    
+    def bestActivity(self, distance):
         bestTime = timedelta(seconds = 60 * 60 * 24)
         for activity in self.training:
-            if activity.distance >= distance:
-                bestTime = min(bestTime, activity.time)        
-        return bestTime
-        
+            if activity.distance >= distance and \
+               activity.time < bestTime:
+                bestTime = activity.time 
+                bestActivity = activity       
+        return bestActivity
+
+    def bestTime(self, distance):
+        return self.bestActivity(distance).time
+       
+    def bestDescription(self, distance):
+        return "%s"%self.bestActivity(distance).raceDate()
+ 
     def range(self, startDate, endDate = None):
         myRange = Period()
 
