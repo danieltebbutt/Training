@@ -192,7 +192,6 @@ class Period:
         streak = 1
         lastdate = date(2000, 1, 1)
         for rundate in datelist:
-            print "%s %d %d"%(rundate, longest, streak)
             if (rundate - lastdate).days == 1:
                 streak = streak + 1
             elif (rundate - lastdate).days > 1:

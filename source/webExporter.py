@@ -45,7 +45,7 @@ function drawChart() {\n")
 
     def writeActivityScore(self, data, fun, name):
         # indexed by (isRace, isTreadmill)
-        pointColors = { (False, False) : "null",
+        pointColors = { (False, False) : "0000ff",
                         (True, False)  : "ff0000",
                         (False, True)  : "32cd32",
                         }
