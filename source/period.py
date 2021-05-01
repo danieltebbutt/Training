@@ -14,7 +14,7 @@ class Period:
 
     def addActivity(self, newActivity):
         # Some clashing data before this date, but afterwards there are some days with >1 run
-        if newActivity.date in self.dateList and newActivity.date < date(2015, 1, 1):
+        if newActivity.date in self.dateList and (newActivity.date < date(2015, 1, 1) or (newActivity.time == self.dateList[newActivity.date].time and newActivity.distance == self.dateList[newActivity.date].distance and newActivity.notes == self.dateList[newActivity.date].notes)):
             self.removeActivity(self.dateList[newActivity.date])
             print "Removing date %s"%newActivity.date
 
@@ -190,16 +190,21 @@ class Period:
         datelist = [ activity.date for activity in self.training ]
         datelist.sort()
         streak = 1
-        lastdate = date(2000, 1, 1)
+        current_lastdate = date(2000, 1, 1)
         for rundate in datelist:
-            if (rundate - lastdate).days == 1:
+            if (rundate - current_lastdate).days == 1:
                 streak = streak + 1
-            elif (rundate - lastdate).days > 1:
+                current_lastdate = rundate
+            elif (rundate - current_lastdate).days > 1:
                 streak = 1
+                current_firstdate = rundate
+                current_lastdate = rundate
+
             if streak > longest:
                 longest = streak
-            lastdate = rundate
-        return longest
+                firstdate = current_firstdate
+                lastdate = rundate
+        return longest, firstdate, lastdate
     
     def bestActivity(self, distance):
         bestTime = timedelta(seconds = 60 * 60 * 24)

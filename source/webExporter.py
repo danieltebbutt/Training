@@ -138,7 +138,7 @@ function drawChart() {\n")
         self.chartIndex += 1
 
     def writeTraining(self, data):  
-        pointColors = { False  : "null",
+        pointColors = { False  : "0000ff",
                         True  : "32cd32",
                         }
 
@@ -314,7 +314,7 @@ function drawChart() {\n")
         self.outputfile.write("<li>Longest run:        %2d:%02d:%02d</li>\n"%self.timedeltaToHMS(data.longest()))
         self.outputfile.write("<li>Furthest run:       %dkm</li>\n"%data.furthest())
         self.outputfile.write("<li>Highest average HR: %d</li>\n"%data.highestHR())
-        self.outputfile.write("<li>Longest running streak: %d days</li>\n"%data.longestStreak())
+        self.outputfile.write("<li>Longest running streak: %d days (%s to %s)</li>\n"%data.longestStreak())
         self.outputfile.write("<li>5km:                %2d:%02d (%s)</li>\n"%(self.timedeltaToMS(data.bestTime(5)) + (data.bestDescription(5),)))
         self.outputfile.write("<li>10km:               %2d:%02d (%s)</li>\n"%(self.timedeltaToMS(data.bestTime(10)) + (data.bestDescription(10),)))
         self.outputfile.write("<li>21km:               %d:%02d:%02d (%s)</li>\n"%(self.timedeltaToHMS(data.bestTime(21.1)) + (data.bestDescription(21.1),)))

@@ -60,15 +60,17 @@ class Importer(object):
 
                 deltatime = self.parseTime(self.getValue(row, ["Time"]))
 
-                heartRate = float(self.getValue(row, ["Heart rate", "Avg HR", "HR"], "0"))
+                heartRate = float(self.getValue(row, ["Heart rate", "Avg HR", "HR", "Heartrate"], "0"))
 
                 elevationGain = float(self.getValue(row, ["Climb", "Elevation Gain", "Elevation gain"], "0"))
 
                 route = self.getValue(row, ["Location", "Route"], "")
 
                 notes = self.getValue(row, ["Notes", "Comment"], "")
+                
+                raceName = self.getValue(row, ["Race name"], "")
 
-                activity = Activity(date, distance, deltatime, notes, heartRate, elevationGain, route)
+                activity = Activity(date, distance, deltatime, notes, heartRate, elevationGain, route, raceName)
 
                 data.addActivity(activity)
 

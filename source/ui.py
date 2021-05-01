@@ -10,9 +10,11 @@ from googleImporter import GoogleImporter
 from garminImporter import GarminImporter
 from racesImporter import RacesImporter
 from googleWebImporter import GoogleWebImporter
+from csvImporter import CsvImporter
 from importer import Importer
 from webExporter import WebExporter
 from newsExporter import NewsExporter
+from csvExporter import CsvExporter
 from webPublish import WebPublish
 from datetime import datetime
 from datetime import timedelta
@@ -171,7 +173,8 @@ Usage: publish <sourceDir> <intermediateDir> <targetDir> <domain> <password>"
         usage = "\
 Usage: export HTMLCharts <filename>\n\
        export HTMLTemplate <outputDirectory> <templateDirectory>\n\
-       export HTMLNews <filename>\n"
+       export HTMLNews <filename>\n\
+       export csv <filename>\n"
         if " " in arguments:
             (type, arguments) = arguments.split(' ', 1)
         else:
@@ -191,6 +194,9 @@ Usage: export HTMLCharts <filename>\n\
         elif type == "HTMLNews":
             filename = arguments            
             exporter = NewsExporter(filename = filename)
+        elif type == "csv":
+            filename = arguments
+            exporter = CsvExporter(filename = filename)
         else:
             self.error("Type '%s' not recognized"%type)
             self.error(usage)
@@ -215,7 +221,7 @@ Usage: export HTMLCharts <filename>\n\
         return(answer == "yes")
 
     def importData(self, data, arguments):
-        usage = "Usage: import Google/Garmin/GoogleForm/GoogleWeb/Races <filename>"
+        usage = "Usage: import Google/Garmin/GoogleForm/GoogleWeb/Races/csv <filename>"
         if " " in arguments:
             (type, filename) = arguments.split(' ', 1)
         else:
@@ -232,6 +238,8 @@ Usage: export HTMLCharts <filename>\n\
             importer = GoogleWebImporter(filename)
         elif type == "Races":
             importer = RacesImporter(filename)
+        elif type == "csv":
+            importer = CsvImporter(filename)
         else:
             self.error("Type '%s' not recognized"%type)
             self.error(usage)
