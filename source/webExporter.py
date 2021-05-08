@@ -3,8 +3,9 @@
 
 import pdb
 import os
-from database import Database
-from exporter import Exporter
+import io
+from .database import Database
+from .exporter import Exporter
 import webbrowser
 from os import listdir
 from os.path import isfile, join
@@ -337,7 +338,11 @@ function drawChart() {\n")
                  }
 
         fileStream = open(join(self.templateDir,template), 'r')
-        self.outputfile = open(join(self.outputDir,template), 'w')
+
+        if self.outputDir:
+            self.outputfile = open(join(self.outputDir,template), 'w')
+        else:
+            self.outputfile = io.StringIO()
 
         self.chartIndex = 1
 
@@ -367,9 +372,18 @@ function drawChart() {\n")
                 tags[line.strip()][0](data)
             else:
                 self.outputfile.write(line)
+
+        if not self.outputDir:
+            text = self.outputfile.getvalue()
+        else:
+            text = ""
+    
         self.outputfile.close()
+        return (template, text)
 
     def publish(self, data):
+
+        results = []
 
         if self.type == self.SINGLE:
             self.chartIndex = 1
@@ -390,8 +404,10 @@ function drawChart() {\n")
             templateFiles = [ f for f in listdir(self.templateDir) if isfile(join(self.templateDir,f)) ]
 
             for template in templateFiles:
-                self.actionTemplate(data, template)
+                result = self.actionTemplate(data, template)
+                if result:
+                    results.append(result)
                 #webbrowser.open(join(self.outputDir, template))
 
-        return
+        return results
 

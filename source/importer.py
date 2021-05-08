@@ -3,18 +3,20 @@
 
 import os
 import csv
+import codecs
 from datetime import date
 from datetime import time
 from datetime import datetime
 from datetime import timedelta
 
-from database import Database
-from activity import Activity
+from .database import Database
+from .activity import Activity
 
 class Importer(object):
 
-    def __init__(self, filename):
+    def __init__(self, filename = None, inputStream = None):
         self.filename = filename
+        self.inputStream = inputStream
 
     def fileExists(self):
         return os.path.isfile(self.filename)
@@ -50,7 +52,12 @@ class Importer(object):
         return default
 
     def loadData(self, data):
-        fileStream = open(self.filename, 'rb')
+        if self.filename:
+            fileStream = open(self.filename, 'rb')
+        else:  
+            #fileStream = codecs.iterdecode(self.inputStream, "utf-8")
+            fileStream = iter(self.inputStream.splitlines())
+
         reader = csv.DictReader(fileStream)
         for row in reader:
             try:
@@ -76,6 +83,6 @@ class Importer(object):
 
             except Exception as exception:
                 if float(self.getValue(row, ["Distance", "Dist"], "0")) != 0:
-                    print "Found distance but could not parse row:\n%s\n%s"%(row, str(exception))
+                    print("Found distance but could not parse row:\n%s\n%s"%(row, str(exception)))
                 pass
         return

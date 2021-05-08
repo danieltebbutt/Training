@@ -1,9 +1,11 @@
 # NewsExporter for Dan's training application.
 # This contains specific functions for exporting data for Dan's news feed.
 
-from exporter import Exporter
+from .exporter import Exporter
+
 from datetime import timedelta
 from datetime import datetime
+import io
 
 class NewsExporter(Exporter):
 
@@ -65,13 +67,21 @@ class NewsExporter(Exporter):
 
     def publish(self, data):
 
-        self.outputfile = open(self.filename, 'w')
+        if self.filename:
+            self.outputfile = open(self.filename, 'w')
+        else:
+            self.outputfile = io.StringIO()
 
         self.writeRuns(data)
         self.writeMonthlySummaries(data)
         self.writeYearlySummaries(data)
-        
+
+        if not self.filename:
+            html = self.outputfile.getvalue()
+        else:
+            html = ""
+
         self.outputfile.close()
 
-        return
+        return html
 

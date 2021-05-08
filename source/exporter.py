@@ -2,7 +2,7 @@
 # This contains generic functions for exporting data and is extended by other classes.
 
 import os
-from database import Database
+from .database import Database
 
 class Exporter:
 
@@ -13,13 +13,13 @@ class Exporter:
         self.filename = filename
         self.outputDir = outputDir
         self.templateDir = templateDir
-        if not self.filename == "":
-            self.type = self.SINGLE
-        else:
+        if self.templateDir != "":
             self.type = self.TEMPLATE
+        else:
+            self.type = self.SINGLE
 
     def publish(self, data):
-        print "Error! publish not over-ridden"
+        print("Error! publish not over-ridden")
         return
                     
         

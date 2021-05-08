@@ -1,7 +1,7 @@
 # Perio for Dan's training application.
 # This contains all training information for a period of time.
 
-from activity import Activity
+from .activity import Activity
 from datetime import date
 from datetime import timedelta
 
@@ -16,20 +16,20 @@ class Period:
         # Some clashing data before this date, but afterwards there are some days with >1 run
         if newActivity.date in self.dateList and (newActivity.date < date(2015, 1, 1) or (newActivity.time == self.dateList[newActivity.date].time and newActivity.distance == self.dateList[newActivity.date].distance and newActivity.notes == self.dateList[newActivity.date].notes)):
             self.removeActivity(self.dateList[newActivity.date])
-            print "Removing date %s"%newActivity.date
+            print("Removing date %s"%newActivity.date)
 
         self.training.append(newActivity)
         if self.startDate == None or self.startDate > newActivity.date:
             self.startDate = newActivity.date
 
         # If there's a clash then decide which to store based on pace
-	if not newActivity.date in self.dateList or \
-           self.dateList[newActivity.date].pace() > newActivity.pace():
+        if not newActivity.date in self.dateList or \
+            self.dateList[newActivity.date].pace() > newActivity.pace():
             self.dateList[newActivity.date] = newActivity
 
     def registerRace(self, date, name):
         if not date in self.dateList:
-            print "Unable to register race: %s %s %s"%(date, name, self.dateList)
+            print("Unable to register race: %s %s %s"%(date, name, self.dateList))
             return
 
         self.dateList[date].setRace(name)
@@ -59,7 +59,7 @@ class Period:
 
     def dump(self):
         for activity in self.sorted():
-            print activity.toLongString()
+            print(activity.toLongString())
 
     def clash(self, comparison):
         for item in comparison.training:

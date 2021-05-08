@@ -1,15 +1,18 @@
-from exporter import Exporter
+from .exporter import Exporter
 from datetime import timedelta
 from datetime import datetime
 
 class CsvExporter(Exporter):
 
     def publish(self, data):
+        
+        if self.filename:
+            self.outputfile = open(self.filename, 'w')
 
-        self.outputfile = open(self.filename, 'w')
+        page = ""
 
         line = "Date,Distance,Time,Notes,Heartrate,Elevation gain,Race name,Route\n"
-        self.outputfile.write(line)
+        page += line
         for activity in data.training:
             line = "%s,%.2f,%s,\"%s\",%d,%d,%s,\"%s\"\n"%(
                                       activity.date.strftime("%Y-%m-%d"), 
@@ -20,9 +23,11 @@ class CsvExporter(Exporter):
                                       activity.elevation, 
                                       activity.raceName,
                                       activity.route)
-            self.outputfile.write(line)
-        
-        self.outputfile.close()
+            page += line
 
-        return
+        if self.filename:        
+            self.outputfile.write(page)
+            self.outputfile.close()
+
+        return page
 

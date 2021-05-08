@@ -13,7 +13,7 @@ class Activity:
         self.elevation = elevation
         self.raceName = raceName
         self.tags = []
-        if raceName != "":
+        if raceName:
             self.setTag("RACE")
         self.route = route
         if "Treadmill" in self.route:
@@ -80,7 +80,7 @@ class Activity:
             # 5k
             return 5
         else:
-            print "Unrecognized race distance: %.1f"%self.distance
+            print("Unrecognized race distance: %.1f"%self.distance)
             return 0
 
     def raceFitness(self):
