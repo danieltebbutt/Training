@@ -11,6 +11,7 @@ from os import listdir
 from os.path import isfile, join
 from datetime import timedelta
 from datetime import datetime
+from collections import defaultdict
 
 class WebExporter(Exporter):
 
@@ -321,7 +322,17 @@ function drawChart() {\n")
         self.outputfile.write("<li>21km:               %d:%02d:%02d (%s)</li>\n"%(self.timedeltaToHMS(data.bestTime(21.1)) + (data.bestDescription(21.1),)))
         self.outputfile.write("<li>42km:               %d:%02d:%02d (%s)</li>\n"%(self.timedeltaToHMS(data.bestTime(42.2)) + (data.bestDescription(42.2),)))
         self.outputfile.write("</ul>\n")
+
+    def writeShoes(self, data):
         
+        shoes = defaultdict(int)
+        for activity in [x for x in data.training if x.shoes]:
+            shoes[activity.shoes] += activity.distance
+
+        self.outputfile.write("<ul>\n")
+        for shoe in shoes:
+            self.outputfile.write("<li>%s:       %dkm</li>\n"%(shoe, shoes[shoe]))
+        self.outputfile.write("</ul>\n")
                   
     def actionTemplate(self, data, template):
 
@@ -335,6 +346,7 @@ function drawChart() {\n")
                  "###INTENSITY###" : (self.writeIntensity, True),
                  "###TRAINING###"  : (self.writeTraining, True),
                  "###RECENT###"    : (self.writeRecent, False),
+                 "###SHOES###"     : (self.writeShoes, False),
                  }
 
         fileStream = open(join(self.templateDir,template), 'r')

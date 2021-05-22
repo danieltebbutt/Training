@@ -11,10 +11,10 @@ class CsvExporter(Exporter):
 
         page = ""
 
-        line = "Date,Distance,Time,Notes,Heartrate,Elevation gain,Race name,Route\n"
+        line = "Date,Distance,Time,Notes,Heartrate,Elevation gain,Race name,Route,Shoes\n"
         page += line
         for activity in data.training:
-            line = "%s,%.2f,%s,\"%s\",%d,%d,%s,\"%s\"\n"%(
+            line = "%s,%.2f,%s,\"%s\",%d,%d,%s,\"%s\",\"%s\"\n"%(
                                       activity.date.strftime("%Y-%m-%d"), 
                                       activity.distance, 
                                       activity.time, 
@@ -22,7 +22,8 @@ class CsvExporter(Exporter):
                                       activity.heartrate, 
                                       activity.elevation, 
                                       activity.raceName,
-                                      activity.route)
+                                      activity.route,
+                                      activity.shoes)
             page += line
 
         if self.filename:        

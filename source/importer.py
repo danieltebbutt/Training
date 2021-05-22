@@ -77,7 +77,9 @@ class Importer(object):
                 
                 raceName = self.getValue(row, ["Race name"], "")
 
-                activity = Activity(date, distance, deltatime, notes, heartRate, elevationGain, route, raceName)
+                shoes = self.getValue(row, ["Shoes"], "")
+
+                activity = Activity(date, distance, deltatime, notes, heartRate, elevationGain, route, raceName, shoes)
 
                 data.addActivity(activity)
 

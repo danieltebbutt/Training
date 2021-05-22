@@ -4,7 +4,16 @@ import math
 
 class Activity:
 
-    def __init__(self, date, distance = 0.0, time = 0, notes = "", heartrate = 0, elevation = 0, route = "", raceName=""):
+    def __init__(self, 
+                 date, 
+                 distance = 0.0, 
+                 time = 0, 
+                 notes = "", 
+                 heartrate = 0, 
+                 elevation = 0, 
+                 route = "", 
+                 raceName="", 
+                 shoes=""):
         self.date = date
         self.distance = distance
         self.time = time
@@ -18,6 +27,7 @@ class Activity:
         self.route = route
         if "Treadmill" in self.route:
             self.setTag("TREADMILL")
+        self.shoes = shoes
 
     def setTag(self, tag):
         self.tags.append(tag)
