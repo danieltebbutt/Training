@@ -323,6 +323,24 @@ function drawChart() {\n")
         self.outputfile.write("<li>42km:               %d:%02d:%02d (%s)</li>\n"%(self.timedeltaToHMS(data.bestTime(42.2)) + (data.bestDescription(42.2),)))
         self.outputfile.write("</ul>\n")
 
+    def writeStreak(self, data):
+        
+        streak = data.longestStreak()
+        streakData = data.range(streak[1], streak[2])
+
+        self.outputfile.write("<p>%d days from %s to %s:</p>\n"%streak)
+
+        self.outputfile.write("<ul style=\"list-style-type:none;padding-left:0;\"><li>Distance run:       %dkm</li>\n"%streakData.kilometres())
+        self.outputfile.write("<li>Number of runs:     %d</li>\n"%len(streakData.training))
+        self.outputfile.write("<li>Time spent running: %d hours</li>\n"%self.timedeltaToHMS(streakData.time())[0])
+        
+        self.outputfile.write("<li>Average run length: %.1fkm</li>\n"%(streakData.kilometres() / len(streakData.training)))
+        self.outputfile.write("<li>Average run time:   %2d:%02d:%02d</li>\n"%self.timedeltaToHMS(streakData.time() / len(streakData.training)))
+        seconds_per_km = streakData.time().total_seconds() / streakData.kilometres()
+        self.outputfile.write("<li>Average pace:       %d:%d per km</li>\n"%(seconds_per_km / 60, seconds_per_km % 60))
+        heartbeats, timeMeasured = streakData.heartbeats()
+        self.outputfile.write("<li>Average heart rate: %dbpm</li></ul>\n"%(heartbeats * 60 / timeMeasured.total_seconds()))
+                  
     def writeShoes(self, data):
         
         shoes = defaultdict(int)
@@ -347,6 +365,7 @@ function drawChart() {\n")
                  "###TRAINING###"  : (self.writeTraining, True),
                  "###RECENT###"    : (self.writeRecent, False),
                  "###SHOES###"     : (self.writeShoes, False),
+                 "###STREAK###"    : (self.writeStreak, False)
                  }
 
         fileStream = open(join(self.templateDir,template), 'r')
