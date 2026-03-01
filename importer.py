@@ -1,5 +1,7 @@
-# Importer for Dan's training application.
-# This contains generic functions for importing data and is extended by other classes.
+"""
+Importer for Dan's training application.
+This contains generic functions for importing data and is extended by other classes.
+"""
 
 import os
 import csv

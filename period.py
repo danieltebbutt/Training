@@ -1,5 +1,7 @@
-# Perio for Dan's training application.
-# This contains all training information for a period of time.
+"""
+Period for Dan's training application.
+This contains all training information for a period of time.
+"""
 
 from .activity import Activity
 from datetime import date
@@ -230,4 +232,3 @@ class Period:
                 myRange.addActivity(activity)
 
         return myRange
-

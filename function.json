@@ -1,0 +1,44 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get",
+        "post"
+      ]
+    },
+    {
+      "name": "inputblob",
+      "type": "blob",
+      "dataType": "string",
+      "path": "training/training.csv",
+      "connection": "blobconnection",
+      "direction": "in"
+    },
+    {
+      "name": "outputblob",
+      "type": "blob",
+      "dataType": "string",
+      "path": "training/training.csv",
+      "connection": "blobconnection",
+      "direction": "out"
+    },
+    {
+      "name": "runlog",
+      "type": "blob",
+      "dataType": "string",
+      "path": "news/runlog.csv",
+      "connection": "blobconnection",
+      "direction": "out"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "$return"
+    }
+  ]
+}

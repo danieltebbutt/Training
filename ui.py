@@ -1,24 +1,23 @@
-# UI for Dan's training application
-# This takes instructions as input and carries out actions
-
+"""
+UI for Dan's training application (flattened).
+"""
 
 import sys
 import math
 
-from database import Database
-from googleImporter import GoogleImporter
-from garminImporter import GarminImporter
-from racesImporter import RacesImporter
-from googleWebImporter import GoogleWebImporter
-from csvImporter import CsvImporter
-from importer import Importer
-from webExporter import WebExporter
-from newsExporter import NewsExporter
-from csvExporter import CsvExporter
-from webPublish import WebPublish
+from .database import Database
+from .googleImporter import GoogleImporter
+from .garminImporter import GarminImporter
+from .racesImporter import RacesImporter
+from .googleWebImporter import GoogleWebImporter
+from .csvImporter import CsvImporter
+from .importer import Importer
+from .webExporter import WebExporter
+from .csvExporter import CsvExporter
+from .webPublish import WebPublish
 from datetime import datetime
 from datetime import timedelta
-from period import Period
+from .period import Period
 
 class UI:
 
@@ -102,9 +101,6 @@ class UI:
 
         print "slope = %f\nintercept = %f\ncorrelation = %f"%(slope, intercept, corr)
 
-       #     print "%f %f %f %f"%(slope, intercept, r, p)
-
-
     def bestFit(self, data, arguments):
         if not self.range:
             print "Define range first"
@@ -114,11 +110,6 @@ class UI:
             for activity in self.range.training:
                 x.append(activity.date.days)
                 y.append(activity.fitness())
-            
-            #slope, intercept, r, p, stderr = stats.lineregress(x, y)
-            
-            #print "%.2f Fit/month"%(slope*28)
-            
     def races(self, data, arguments):
         for race in data.getRaces():
             print
@@ -192,8 +183,9 @@ Usage: export HTMLCharts <filename>\n\
                 return
             exporter = WebExporter(outputDir = outputDir, templateDir = templateDir)
         elif type == "HTMLNews":
-            filename = arguments            
-            exporter = NewsExporter(filename = filename)
+            # News publishing removed in refactor
+            self.error("HTMLNews export removed")
+            return
         elif type == "csv":
             filename = arguments
             exporter = CsvExporter(filename = filename)
@@ -249,10 +241,6 @@ Usage: export HTMLCharts <filename>\n\
             self.error("File '%s' not found"%filename)
             self.error(usage)
             return
-
-        #if importer.clashingData(data) and \
-        #        not self.continuePrompt("Data clash processing %s.  Overwrite existing data with newly imported data?"%filename):
-        #    return;
 
         importer.loadData(data)
 

@@ -1,9 +1,11 @@
-# WebPublish for Dan's training application.
-# This publishes a set of files to the web via an intermediate local directory.
+"""
+WebPublish for Dan's training application.
+This publishes a set of files to the web via an intermediate local directory.
+"""
 
 import os
-from database import Database
-from exporter import Exporter
+from .database import Database
+from .exporter import Exporter
 import webbrowser
 from os import listdir
 from os.path import isfile, join

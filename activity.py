@@ -1,5 +1,7 @@
-# Activity for Dan's training application.
-# This contains all training information for a single activity.
+"""
+Activity for Dan's training application.
+This contains all training information for a single activity.
+"""
 import math
 
 class Activity:
@@ -114,4 +116,3 @@ class Activity:
     def setRace(self, name):
         self.setTag("RACE")
         self.raceName = name
-

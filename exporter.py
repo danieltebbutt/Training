@@ -1,5 +1,7 @@
-# Exporter for Dan's training application.
-# This contains generic functions for exporting data and is extended by other classes.
+"""
+Exporter for Dan's training application.
+This contains generic functions for exporting data and is extended by other classes.
+"""
 
 import os
 from .database import Database

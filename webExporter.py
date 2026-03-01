@@ -1,5 +1,7 @@
-# WebExporter for Dan's training application.
-# This contains specific functions for exporting data to the web.
+"""
+WebExporter for Dan's training application.
+This contains specific functions for exporting data to the web.
+"""
 
 import pdb
 import os
@@ -64,8 +66,7 @@ function drawChart() {\n")
                                    activity.summaryString(),
                                    "'point {fill-color: #%s}'"%pointColors[(activity.isRace(), activity.isTreadmill())]))
 
-        self.outputfile.write("]);\n\
-\n\
+        self.outputfile.write("]);\n\n\
   var options%d = {\n\
     title: '%s',\n\
     legend: {position: 'none'},\n\
@@ -74,15 +75,9 @@ function drawChart() {\n")
         self.outputfile.write("explorer: { actions: ['dragToZoom', 'rightClickToReset'] }")
         
         self.outputfile.write("\
-  };\n\
-\n\
-  var chart%d = new google.visualization.ScatterChart(document.getElementById('chart_div%d'));\n\
-\n\
-  chart%d.draw(data%d, options%d);\n"%(self.chartIndex, \
-                                       self.chartIndex, \
-                                       self.chartIndex, \
-                                       self.chartIndex, \
-                                       self.chartIndex))
+  };\n\n\
+  var chart%d = new google.visualization.ScatterChart(document.getElementById('chart_div%d'));\n\n\
+  chart%d.draw(data%d, options%d);\n"%(self.chartIndex, \n+                                       self.chartIndex, \n+                                       self.chartIndex, \n+                                       self.chartIndex, \n+                                       self.chartIndex))
         self.chartIndex += 1
 
     def writeFitness(self, data):
@@ -118,25 +113,17 @@ function drawChart() {\n")
                                    activity.raceFitness(),                                    \
                                    pointColors[activity.raceDistance()]))
 
-        self.outputfile.write("]);\n\
-\n\
+        self.outputfile.write("]);\n\n\
   var options%d = {\n\
     title: 'Race performance vs training over last %d weeks',\n\
     legend: {position: 'none'},\n\
-    backgroundColor: { fill: 'transparent' },\n"%(self.chartIndex, \
-                                   leadUp))
+    backgroundColor: { fill: 'transparent' },\n"%(self.chartIndex, \n+                                   leadUp))
 
         self.outputfile.write("trendlines: { 0: {} }")
         self.outputfile.write("\
-  };\n\
-\n\
-  var chart%d = new google.visualization.ScatterChart(document.getElementById('chart_div%d'));\n\
-\n\
-  chart%d.draw(data%d, options%d);\n"%(self.chartIndex, \
-                                       self.chartIndex, \
-                                       self.chartIndex, \
-                                       self.chartIndex, \
-                                       self.chartIndex))
+  };\n\n\
+  var chart%d = new google.visualization.ScatterChart(document.getElementById('chart_div%d'));\n\n\
+  chart%d.draw(data%d, options%d);\n"%(self.chartIndex, \n+                                       self.chartIndex, \n+                                       self.chartIndex, \n+                                       self.chartIndex, \n+                                       self.chartIndex))
         self.chartIndex += 1
 
     def writeTraining(self, data):  
@@ -162,25 +149,17 @@ function drawChart() {\n")
                                        activity.fitness(),                                    \
                                        pointColors[activity.isTreadmill()]))
 
-        self.outputfile.write("]);\n\
-\n\
+        self.outputfile.write("]);\n\n\
   var options%d = {\n\
     title: 'Fitness vs training over last %d weeks',\n\
     legend: {position: 'none'},\n\
-    backgroundColor: { fill: 'transparent' },\n"%(self.chartIndex, \
-                                   leadUp))
+    backgroundColor: { fill: 'transparent' },\n"%(self.chartIndex, \n+                                   leadUp))
 
         self.outputfile.write("trendlines: { 0: {} }")
         self.outputfile.write("\
-  };\n\
-\n\
-  var chart%d = new google.visualization.ScatterChart(document.getElementById('chart_div%d'));\n\
-\n\
-  chart%d.draw(data%d, options%d);\n"%(self.chartIndex, \
-                                       self.chartIndex, \
-                                       self.chartIndex, \
-                                       self.chartIndex, \
-                                       self.chartIndex))
+  };\n\n\
+  var chart%d = new google.visualization.ScatterChart(document.getElementById('chart_div%d'));\n\n\
+  chart%d.draw(data%d, options%d);\n"%(self.chartIndex, \n+                                       self.chartIndex, \n+                                       self.chartIndex, \n+                                       self.chartIndex, \n+                                       self.chartIndex))
         self.chartIndex += 1
                 
     def writeWeekly(self, data):
@@ -197,8 +176,7 @@ function drawChart() {\n")
                                    period.kilometres(),
                                    "'#ff0000'" if period.containsRace() else "null"))
 
-        self.outputfile.write("]);\n\
-\n\
+        self.outputfile.write("]);\n\n\
   var options%d = {\n\
     title: 'Kilometres per %s',\n\
     legend: {position: 'none'},\n\
@@ -206,10 +184,8 @@ function drawChart() {\n")
     vAxis: {viewWindowMode:'explicit', viewWindow:{min:0}}\n\
   };\n\
 \n\
-  var chart%d = new google.visualization.ColumnChart(document.getElementById('chart_div%d'));\n\
-\n\
-  chart%d.draw(data%d, options%d);\n"%(self.chartIndex, \
-                                   periodName,      \
+  var chart%d = new google.visualization.ColumnChart(document.getElementById('chart_div%d'));\n\n\
+  chart%d.draw(data%d, options%d);\n"%(self.chartIndex, \n+                                   periodName,      \
                                    self.chartIndex, \
                                    self.chartIndex, \
                                    self.chartIndex, \
@@ -298,7 +274,6 @@ function drawChart() {\n")
             self.outputfile.write("<li>%d:                 %dkm</li>\n"%(year, year_data.kilometres()))
         self.outputfile.write("</ul>\n")
 
- 
         # Averages
         self.outputfile.write("<p>Average:</p>\n")
         self.outputfile.write("<ul>\n")
@@ -441,4 +416,3 @@ function drawChart() {\n")
                 #webbrowser.open(join(self.outputDir, template))
 
         return results
-

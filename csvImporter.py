@@ -1,6 +1,6 @@
-# GoogleImporter for Dan's training application.
-# This contains specific functions for importing data from a Google .csv export.
-
+"""
+CSV importer for training app (flattened).
+"""
 import os
 import csv
 
